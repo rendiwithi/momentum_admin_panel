@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_admin_panel/screen/admin/HomePage/Components/body.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("admin"),
-      ),
+      body: HomePageBody(),
     );
   }
 }
