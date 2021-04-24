@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
 
 class CreateWearhouse extends StatefulWidget {
   final IconData icon;
@@ -71,7 +72,7 @@ class _CreateDeliveryState extends State<CreateDelivery> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
-              Icons.shopping_cart,
+              Iconku.icon_delivery_order,
               color: Color(0xff37474F),
             ),
             Text(
@@ -124,12 +125,15 @@ class _CreateMenuState extends State<CreateMenu> {
                       widget.icon,
                       color: Color(0xff37474F),
                     ),
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff37474F),
+                    Container(
+                      margin: EdgeInsets.only(left: 8),
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff37474F),
+                        ),
                       ),
                     ),
                   ],
@@ -170,15 +174,18 @@ class QuitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.close,
+              Iconku.out,
               color: Color(0xffBA2121),
             ),
-            Text(
-              "Keluar",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Color(0xffBA2121),
+            Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Text(
+                "Keluar",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xffBA2121),
+                ),
               ),
             ),
           ],

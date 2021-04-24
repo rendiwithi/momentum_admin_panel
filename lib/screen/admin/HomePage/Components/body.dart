@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
 import 'package:momentum_admin_panel/screen/admin/HomePage/widget/widget.dart';
 
 class HomePageBody extends StatelessWidget {
@@ -55,12 +56,12 @@ class HomePageBody extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 CreateWearhouse(
-                                  icon: Icons.widgets,
+                                  icon: Iconku.warehouse,
                                   title: "Warehouse",
                                   route: '/admin/warehouse',
                                 ),
                                 CreateWearhouse(
-                                  icon: Icons.widgets,
+                                  icon: Iconku.warehouse,
                                   title: "Stok Online",
                                   route: '/trial',
                                 ),
@@ -86,13 +87,13 @@ class HomePageBody extends StatelessWidget {
                       child: Text("Produk Kamu"),
                     ),
                     CreateMenu(
-                      icon: Icons.add_box,
+                      icon: Iconku.icon_tambah_produk,
                       title: "Tambahkan Produk",
                       data: "",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Icons.archive,
+                      icon: Iconku.icon_produk_toko,
                       title: "Produk Toko",
                       data: "251 Produk",
                       route: '/trial',
@@ -112,31 +113,31 @@ class HomePageBody extends StatelessWidget {
                       child: Text("Lainnya"),
                     ),
                     CreateMenu(
-                      icon: Icons.add_box,
+                      icon: Iconku.icon_ulasan_produk,
                       title: "Ulasan Produk",
                       data: "4 Ulasan",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Icons.archive,
+                      icon: Iconku.icon_data_reseller,
                       title: "Data Reseller",
                       data: "",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Icons.archive,
+                      icon: Iconku.icon_voucher_kupon,
                       title: "Voucher Kupon",
                       data: "",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Icons.archive,
+                      icon: Iconku.icon_kelola_banner,
                       title: "Kelola Banner",
                       data: "",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Icons.archive,
+                      icon: Iconku.icon_status_pesanan,
                       title: "Status Pesanan",
                       data: "",
                       route: '/trial',
@@ -145,10 +146,12 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15, bottom: 8),
-                padding: EdgeInsets.all(15),
+                margin: EdgeInsets.only(left: 15, right: 15, bottom: 8, top: 8),
                 color: Colors.white,
-                child: QuitButton(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(margin: EdgeInsets.only(left: 16), child: QuitButton()),
+                ),
               )
             ],
           ),
