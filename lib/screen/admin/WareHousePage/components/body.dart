@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/widgets/appBarCustom.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/widgets/search.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/widgets/warning.dart';
+import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
+import 'package:momentum_admin_panel/widgets/search.dart';
+import 'package:momentum_admin_panel/widgets/warning.dart';
 
 class WareHouseBody extends StatefulWidget {
   @override
@@ -16,9 +16,9 @@ class _WareHouseBodyState extends State<WareHouseBody> {
     "https://id-test-11.slatic.net/p/5/kiss-beauty-bb-mineral-cream-baby-skin-cream-milky-lotion-makeup-base-concealer-foundation-finishing-powder-9659-30947323-e466aa7164002da06cb853c94db597e4-catalog_233.jpg_320x320.jpg",
   ];
   final List<String> name = [
-    'Scarlett Whitening Body Scrub Romansa',
-    'Scarlett Whitening Body Scrub Romansa',
-    'Scarlett Whitening Body Scrub Romansa',
+    'Scarlett Whitening Body Scrub Romansa Asd',
+    'Scarlett Whitening Body Scrub Romansa Qwe',
+    'Scarlett Whitening Body Scrub Romansa Zxcasd',
   ];
   final List<int> stock = [241, 5, 100];
   void isLow() {
@@ -40,19 +40,13 @@ class _WareHouseBodyState extends State<WareHouseBody> {
     return SafeArea(
       child: Column(
         children: [
-          Expanded(
-            flex: 1,
-            child: AppBarCustom(),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              height: 60,
-              padding: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: SearchBar(),
-            ),
+          AppBarCustom(),
+          Container(
+            height: 60,
+            padding: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width,
+            color: Colors.white,
+            child: SearchBar(),
           ),
           (isStockLow == true)
               ? ErrorWarning()
@@ -63,7 +57,6 @@ class _WareHouseBodyState extends State<WareHouseBody> {
             height: 5,
           ),
           Expanded(
-            flex: 8,
             child: ListView.builder(
               itemCount: name.length,
               itemBuilder: (BuildContext context, int index) {
@@ -91,28 +84,31 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                           width: 50,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name[index],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: Colors.black,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                name[index],
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Stok Barang : ${stock[index]}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xff696969),
+                              Text(
+                                "Stok Barang : ${stock[index]}",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff696969),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       )
                     ],

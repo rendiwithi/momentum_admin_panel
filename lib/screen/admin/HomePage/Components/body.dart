@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
-import 'package:momentum_admin_panel/screen/admin/HomePage/widget/widget.dart';
+import 'package:momentum_admin_panel/widgets/widget.dart';
 
 class HomePageBody extends StatelessWidget {
   @override
