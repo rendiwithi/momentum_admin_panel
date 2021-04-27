@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
 
-class AppBarCustom extends StatelessWidget {
+class AppBarCustom extends StatefulWidget {
+    final String route;
+
+  const AppBarCustom({Key key, this.route}) : super(key: key);
+  @override
+  _AppBarCustomState createState() => _AppBarCustomState();
+}
+
+class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,7 +70,7 @@ class AppBarCustom extends StatelessWidget {
             flex: 1,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/trial');
+                Navigator.pushNamed(context, widget.route);
               },
               child: Icon(Iconku.reload, color: Colors.white),
             ),

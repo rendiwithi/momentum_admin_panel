@@ -4,12 +4,12 @@ import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/search.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
 
-class WareHouseBody extends StatefulWidget {
+class WareHouseOnlineBody extends StatefulWidget {
   @override
-  _WareHouseBodyState createState() => _WareHouseBodyState();
+  _WareHouseOnlineBodyState createState() => _WareHouseOnlineBodyState();
 }
 
-class _WareHouseBodyState extends State<WareHouseBody> {
+class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   List<ProductModel> product = [];
   bool isStockLow = false;
   final List<String> url = [
@@ -18,12 +18,12 @@ class _WareHouseBodyState extends State<WareHouseBody> {
     "https://id-test-11.slatic.net/p/5/kiss-beauty-bb-mineral-cream-baby-skin-cream-milky-lotion-makeup-base-concealer-foundation-finishing-powder-9659-30947323-e466aa7164002da06cb853c94db597e4-catalog_233.jpg_320x320.jpg",
   ];
   final List<String> name = [
-    'Scarlett Whitening Body Scrub Romansa Asd',
-    'Scarlett Whitening Body Scrub Romansa Qwe',
-    'Scarlett Whitening Body Scrub Romansa Zxcasd',
+    'Scarlett Body Scrub Romansa Asd',
+    'Scarlett Whitening ',
+    'Whitening Body Scrub Romansa Zxcasd',
   ];
 
-  List<int> stock = [241, 5, 100];
+  List<int> stock = [241, 60, 100];
   void isLow() {
     for (var i = 0; i < stock.length; i++) {
       if (stock[i] < 10) {

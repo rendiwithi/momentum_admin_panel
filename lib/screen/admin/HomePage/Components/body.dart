@@ -63,7 +63,7 @@ class HomePageBody extends StatelessWidget {
                                 CreateWearhouse(
                                   icon: Iconku.warehouse,
                                   title: "Stok Online",
-                                  route: '/trial',
+                                  route: '/admin/onlinewarehouse',
                                 ),
                               ],
                             ),
