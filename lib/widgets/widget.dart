@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
+import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 
 class CreateWearhouse extends StatefulWidget {
   final IconData icon;
@@ -72,7 +72,7 @@ class _CreateDeliveryState extends State<CreateDelivery> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
-              Iconku.icon_delivery_order,
+               Momentumicon.icon_delivery_order,
               color: Color(0xff37474F),
             ),
             Text(
@@ -174,7 +174,7 @@ class QuitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Iconku.out,
+               Momentumicon.out,
               color: Color(0xffBA2121),
             ),
             Container(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/screen/admin/WareHousePage/model/product_model.dart';
 import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
-import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
 
 class WareHouseBody extends StatefulWidget {
   @override
@@ -178,7 +178,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Cari Produk",
-                        prefixIcon: Icon(Iconku.search_9),
+                        prefixIcon: Icon(Momentumicon.search),
                       ),
                     ),
                   ),
@@ -189,7 +189,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                     onTap: () {
                       Navigator.pushNamed(context, '/trial');
                     },
-                    child: Icon(Iconku.qrcode_scan_1),
+                    child: Icon(Momentumicon.qr),
                   ),
                 ),
               ],

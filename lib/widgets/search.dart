@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
+import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 
 class SearchBar extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class SearchBar extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Cari Produk",
-                prefixIcon: Icon(Iconku.search_9),
+                prefixIcon: Icon(Momentumicon.search),
               ),
             ),
           ),
@@ -22,10 +22,10 @@ class SearchBar extends StatelessWidget {
         Expanded(
           flex: 1,
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/trial');
             },
-            child: Icon(Iconku.qrcode_scan_1),
+            child: Icon(Momentumicon.qr),
           ),
         ),
       ],

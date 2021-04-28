@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.momentum_admin_panel">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="momentum_admin_panel"
+        android:label="momentum admin panel"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

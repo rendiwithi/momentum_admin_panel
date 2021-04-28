@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
-import 'package:momentum_admin_panel/icon/Iconku_icons.dart';
+import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -75,7 +75,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         shape: BoxShape.rectangle,
                       ),
                       child: Icon(
-                        Iconku.approval_1,
+                        Momentumicon.approval,
                         color: Color(0xff198AF2),
                       ),
                     ),
