@@ -11,6 +11,9 @@ class WareHouseOnlineBody extends StatefulWidget {
 
 class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   List<ProductModel> product = [];
+  List<ProductModel> productSearch = [];
+  TextEditingController searchController = new TextEditingController();
+
   bool isStockLow = false;
   final List<String> url = [
     "https://s2.bukalapak.com/img/23318517662/s-464-464/data.jpeg",
