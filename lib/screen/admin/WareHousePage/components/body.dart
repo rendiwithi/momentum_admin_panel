@@ -29,7 +29,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => ModalPage(id: model[index].id)),

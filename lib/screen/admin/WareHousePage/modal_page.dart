@@ -12,7 +12,9 @@ class ModalPage extends StatefulWidget {
 }
 
 class _ModalPageState extends State<ModalPage> {
-  int add;
+  int add = 1;
+  Color colorDisable = Color(0xffCACACA);
+  Color colorEnable = Color(0xff000000);
   @override
   Widget build(BuildContext context) {
     ProductModel model = productWarehouseaOffline[widget.id];
@@ -20,10 +22,15 @@ class _ModalPageState extends State<ModalPage> {
       body: Stack(
         children: [
           WareHouseBody(),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.black26,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/admin/warehouse');
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.black26,
+            ),
           ),
           Positioned(
             bottom: 0,
@@ -95,19 +102,89 @@ class _ModalPageState extends State<ModalPage> {
                     flex: 1,
                     child: Row(
                       children: [
-                        Text(
-                          "Jumlah Penambah",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Jumlah Penambah",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                onTap: (add == 1)
+                                    ? () {}
+                                    : () {
+                                        setState(() {
+                                          add -= 1;
+                                        });
+                                      },
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.remove,
+                                      color: (add == 1)
+                                          ? colorDisable
+                                          : colorEnable,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: (add == 1)
+                                          ? colorDisable
+                                          : colorEnable,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                add.toString(),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    add += 1;
+                                  });
+                                },
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      color: colorEnable,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorEnable,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      model.stock = model.stock + add;
+                      Navigator.pushReplacementNamed(
+                          context, '/admin/warehouse');
+                    },
                     child: Container(
                       height: 50,
                       color: Colors.black,
