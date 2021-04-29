@@ -39,10 +39,10 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
     for (var i = 0; i < name.length; i++) {
       product.add(
         ProductModel(
-          name[i],
-          url[i],
-          stock[i],
-          i,
+          name:name[i],
+          imgUrl:url[i],
+          stock: stock[i],
+          id: i,
         ),
       );
     }
