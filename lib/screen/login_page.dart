@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/admin/home');
+                    Navigator.pushReplacementNamed(context, '/trial');
                   },
                   child: Text("login sysAdmin"),
                 ),

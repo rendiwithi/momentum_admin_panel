@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/model/history_model.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -8,30 +9,6 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  final List<String> time = [
-    "10 Januari 2020 , 10:00",
-    "10 Januari 2020 , 11:00",
-    "10 Januari 2020 , 12:00",
-    "10 Januari 2020 , 13:00",
-  ];
-  final List<String> user = [
-    "admin 1",
-    "admin 3",
-    "admin 2",
-    "admin 2",
-  ];
-  final List<int> itemAdd = [
-    40,
-    20,
-    10,
-    100,
-  ];
-  final List<String> name = [
-    'Scarlett Whitening Body Scrub Romansa Asd',
-    'Scarlett Whitening Body Scrub Romansa Qwe',
-    'Scarlett Whitening Body Scrub Romansa Zxcasd',
-    'Scarlett Whitening Body Scrub Romansa aja yah',
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +25,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
         body: ListView.builder(
-            itemCount: name.length,
+            itemCount: historyOffline.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 decoration: BoxDecoration(
@@ -90,7 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: user[index],
+                                    text: historyOffline[index].user,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff198AF2),
@@ -104,7 +81,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: "${itemAdd[index].toString()} pcs",
+                                    text:
+                                        "${historyOffline[index].stock.toString()} pcs",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff198AF2),
@@ -114,7 +92,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                             Text(
-                              name[index],
+                              historyOffline[index].name,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -123,7 +101,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                             Text(
-                              time[index],
+                              historyOffline[index].name,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff696969),

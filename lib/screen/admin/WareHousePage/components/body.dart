@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/model/product_model.dart';
 import 'package:momentum_admin_panel/screen/admin/WareHousePage/modal_page.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/model/product_model.dart';
+import 'package:momentum_admin_panel/screen/admin/WareHousePage/warehouse_page.dart';
 import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class WareHouseBody extends StatefulWidget {
   @override
@@ -11,8 +13,10 @@ class WareHouseBody extends StatefulWidget {
 }
 
 class _WareHouseBodyState extends State<WareHouseBody> {
+  int id;
+  String scanId;
   List<ProductModel> productSearch = [];
-  bool isStockLow = false;
+  bool isStockLow = false, isReady = false;
   TextEditingController searchController = new TextEditingController();
 
   void isLow() {
@@ -20,6 +24,12 @@ class _WareHouseBodyState extends State<WareHouseBody> {
       if (productWarehouseaOffline[i].stock < 10) {
         isStockLow = true;
       }
+    }
+  }
+
+  void checkQr(int id) {
+    for (var i = 0; i < productWarehouseaOffline.length; i++) {
+      (productWarehouseaOffline[i].id == id) ? isReady = true : isReady = false;
     }
   }
 
@@ -172,9 +182,24 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 ),
                 Expanded(
                   flex: 1,
+                  // child: ElevatedButton(
+                  //   onPressed: () async{
+                  //     scanId = await scanner.scan();
+                  //   },
+                  //   child: Icon(Momentumicon.qr),
+                  // ),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/trial');
+                    onTap: () async {
+                      scanId = await scanner.scan();
+                      id = int.parse(scanId);
+                      checkQr(id);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder : (context) => (isReady == true) ? ModalPage(id: id):
+                          WareHousePage(),
+                        ),
+                      );
                     },
                     child: Icon(Momentumicon.qr),
                   ),
