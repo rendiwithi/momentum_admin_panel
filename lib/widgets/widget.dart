@@ -62,7 +62,7 @@ class _CreateDeliveryState extends State<CreateDelivery> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/trial');
+        Navigator.pushNamed(context, '/admin/order');
       },
       child: Container(
         width: 144,
