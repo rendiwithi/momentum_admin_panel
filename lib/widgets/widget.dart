@@ -72,7 +72,7 @@ class _CreateDeliveryState extends State<CreateDelivery> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
-               Momentumicon.icon_delivery_order,
+              Momentumicon.icon_delivery_order,
               color: Color(0xff37474F),
             ),
             Text(
@@ -95,7 +95,9 @@ class CreateMenu extends StatefulWidget {
   final String title;
   final String data;
   final String route;
-  CreateMenu({Key key, this.icon, this.title, this.data, this.route})
+  final bool isNew;
+  CreateMenu(
+      {Key key, this.icon, this.title, this.data, this.route, this.isNew})
       : super(key: key);
   @override
   _CreateMenuState createState() => _CreateMenuState();
@@ -126,7 +128,7 @@ class _CreateMenuState extends State<CreateMenu> {
                       color: Color(0xff37474F),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 8),
+                      margin: EdgeInsets.only(left: 8, right: 8),
                       child: Text(
                         widget.title,
                         style: TextStyle(
@@ -136,6 +138,26 @@ class _CreateMenuState extends State<CreateMenu> {
                         ),
                       ),
                     ),
+                    (widget.isNew == true)
+                        ? Container(
+                            height: 21,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Color(0xff2BA537),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "New",
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),
@@ -174,7 +196,7 @@ class QuitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-               Momentumicon.out,
+              Momentumicon.out,
               color: Color(0xffBA2121),
             ),
             Container(

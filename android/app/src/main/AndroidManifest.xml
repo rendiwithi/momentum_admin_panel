@@ -2,7 +2,7 @@
     package="com.example.momentum_admin_panel">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="momentum admin panel"
+        android:label="Momentum Admin Panel"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
