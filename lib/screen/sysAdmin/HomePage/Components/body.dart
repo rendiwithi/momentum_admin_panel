@@ -76,7 +76,10 @@ class HomePageSysAdminBody extends StatelessWidget {
                           clipBehavior: Clip.none,
                           children: [
                             Center(
-                              child: Icon(Icons.textsms, color: Colors.white),
+                              child: Icon(
+                                Momentumicon.chat_1,
+                                color: Colors.white,
+                              ),
                             ),
                             Positioned(
                               top: -15,
@@ -169,13 +172,13 @@ class HomePageSysAdminBody extends StatelessWidget {
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Momentumicon.icon_status_pesanan,
+                      icon: Momentumicon.icon_kelola_pegawai,
                       title: "Kelola Pegawai",
                       data: "",
                       route: '/trial',
                     ),
                     CreateMenu(
-                      icon: Momentumicon.icon_status_pesanan,
+                      icon: Momentumicon.icon_comission,
                       title: "Comission Transfer",
                       data: "",
                       route: '/trial',
@@ -195,7 +198,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       child: Text("Laporan"),
                     ),
                     CreateMenu(
-                      icon: Momentumicon.icon_tambah_produk,
+                      icon: Momentumicon.icon_penjualan,
                       title: "Penjualan",
                       data: "",
                       route: '/trial',
