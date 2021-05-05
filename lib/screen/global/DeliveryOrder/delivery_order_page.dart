@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/screen/admin/DeliveryOrder/components/body.dart';
+import 'package:momentum_admin_panel/screen/global/DeliveryOrder/components/body.dart';
 
 class DeliveryOrderPage extends StatelessWidget {
   @override

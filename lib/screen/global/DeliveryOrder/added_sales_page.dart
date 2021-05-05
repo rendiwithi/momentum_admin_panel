@@ -17,20 +17,6 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
   @override
   Widget build(BuildContext context) {
     OrderModel model = deliveryAdmin[widget.id];
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     backgroundColor: cBlack,
-    //     centerTitle: true,
-    //     title: Text(
-    //       model.serialCode,
-    //       style: TextStyle(
-    //         fontSize: 16,
-    //         color: Colors.white,
-    //         fontWeight: FontWeight.w600,
-    //       ),
-    //     ),
-    //   ),
-    // );
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -299,57 +285,63 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Text(
-                                        "Nomor Resi",
-                                        style: TextStyle(
-                                          color: Color(0xff696969),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
+                          (model.isDelivered)
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: Text(
+                                              "Nomor Resi",
+                                              style: TextStyle(
+                                                color: Color(0xff696969),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            "JNE0985123511",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                          color: cBlack,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Lacak",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      "JNE0985123511",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: cBlack,
-                                    borderRadius: BorderRadius.circular(5),
+                                    ],
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      "Lacak",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ),
@@ -373,12 +365,20 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Icon(
+                                child: (model.isDelivered)?Icon(
                                   Momentumicon.bookmark,
                                   color: Color(0xffE8B730),
+                                ):Icon(
+                                  Momentumicon.deliver,
+                                  color: Colors.white,
                                 ),
                               ),
-                              Text("Cetak Shipping Label", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),)
+                              Text(
+                                (model.isDelivered)?"Cetak Shipping Label":"Tambahkan Resi",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              )
                             ],
                           ),
                         ),

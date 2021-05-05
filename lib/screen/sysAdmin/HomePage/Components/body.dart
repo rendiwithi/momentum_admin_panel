@@ -116,7 +116,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_tambah_produk,
                       title: "Tambahkan Produk",
                       data: "",
-                      route: '/trial',
+                      route: '/global/product',
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_produk_toko,
