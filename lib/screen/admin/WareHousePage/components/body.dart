@@ -16,20 +16,21 @@ class _WareHouseBodyState extends State<WareHouseBody> {
   int id;
   String scanId;
   List<ProductModel> productSearch = [];
+  List<ProductModel> model = productWarehouseaOffline;
   bool isStockLow = false, isReady = false;
   TextEditingController searchController = new TextEditingController();
 
   void isLow() {
-    for (var i = 0; i < productWarehouseaOffline.length; i++) {
-      if (productWarehouseaOffline[i].stock < 10) {
+    for (var i = 0; i < model.length; i++) {
+      if (model[i].stock < 10) {
         isStockLow = true;
       }
     }
   }
 
   void checkQr(int id) {
-    for (var i = 0; i < productWarehouseaOffline.length; i++) {
-      (productWarehouseaOffline[i].id == id) ? isReady = true : isReady = false;
+    for (var i = 0; i < model.length; i++) {
+      (model[i].id == id) ? isReady = true : isReady = false;
     }
   }
 
@@ -160,13 +161,13 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                         productSearch.clear();
                         String check = searchController.text.toLowerCase();
                         for (var i = 0;
-                            i < productWarehouseaOffline.length;
+                            i < model.length;
                             i++) {
                           String productArray =
-                              productWarehouseaOffline[i].name.toLowerCase();
+                              model[i].name.toLowerCase();
                           if (productArray.contains(check)) {
                             setState(() {
-                              productSearch.add(productWarehouseaOffline[i]);
+                              productSearch.add(model[i]);
                             });
                           }
                         }
@@ -188,20 +189,28 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                   //   },
                   //   child: Icon(Momentumicon.qr),
                   // ),
-                  child: GestureDetector(
-                    onTap: () async {
+                  child: IconButton(
+                    onPressed: () async {
+                      isReady = false;
                       scanId = await scanner.scan();
                       id = int.parse(scanId);
-                      checkQr(id);
+
+                      for (var i = 0; i < model.length; i++) {
+                        print(model[i].id);
+
+                        if (model[i].id == id) isReady = true;
+                        if (isReady == true) i = model.length;
+                      }
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder : (context) => (isReady == true) ? ModalPage(id: id):
-                          WareHousePage(),
+                          builder: (context) => (isReady == true)
+                              ? ModalPage(id: id)
+                              : WareHousePage(),
                         ),
                       );
                     },
-                    child: Icon(Momentumicon.qr),
+                    icon: Icon(Momentumicon.qr),
                   ),
                 ),
               ],
@@ -218,7 +227,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
           Expanded(
             child: (searchController.text != "")
                 ? _createListViewBuilder(productSearch)
-                : _createListViewBuilder(productWarehouseaOffline),
+                : _createListViewBuilder(model),
           ),
         ],
       ),

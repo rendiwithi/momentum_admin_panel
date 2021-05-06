@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
 import 'package:momentum_admin_panel/screen/admin/WareHousePage/modal_page.dart';
-import 'package:momentum_admin_panel/screen/admin/WarehouseOnlinePage/warehouse_online_page.dart';
+import 'package:momentum_admin_panel/screen/admin/WareHousePage/warehouse_page.dart';
 import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-
 
 class WareHouseOnlineBody extends StatefulWidget {
   @override
@@ -17,20 +17,21 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   int id;
   String scanId;
   List<ProductModel> productSearch = [];
-  bool isStockLow = false, isReady = false;
+  bool isStockLow = false, isReady;
   TextEditingController searchController = new TextEditingController();
+  List<ProductModel> model = productWarehouseaOnline;
 
   void isLow() {
-    for (var i = 0; i < productWarehouseaOnline.length; i++) {
-      if (productWarehouseaOnline[i].stock < 10) {
+    for (var i = 0; i < model.length; i++) {
+      if (model[i].stock < 10) {
         isStockLow = true;
       }
     }
   }
 
   void checkQr(int id) {
-    for (var i = 0; i < productWarehouseaOnline.length; i++) {
-      (productWarehouseaOffline[i].id == id) ? isReady = true : isReady = false;
+    for (var i = 0; i < model.length; i++) {
+      (model[i].id == id) ? isReady = true : isReady = false;
     }
   }
 
@@ -43,7 +44,8 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => ModalPage(id: model[index].id)),
+                  builder: (context) =>
+                      ModalPage(id: model[index].id)),
             );
           },
           child: Container(
@@ -161,13 +163,13 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                         productSearch.clear();
                         String check = searchController.text.toLowerCase();
                         for (var i = 0;
-                            i < productWarehouseaOnline.length;
+                            i < model.length;
                             i++) {
                           String productArray =
-                              productWarehouseaOnline[i].name.toLowerCase();
+                              model[i].name.toLowerCase();
                           if (productArray.contains(check)) {
                             setState(() {
-                              productSearch.add(productWarehouseaOnline[i]);
+                              productSearch.add(model[i]);
                             });
                           }
                         }
@@ -175,7 +177,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                       },
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Cari Produk",
+                        hintText: "Cari APAAJAH",
                         prefixIcon: Icon(Momentumicon.search),
                       ),
                     ),
@@ -183,21 +185,28 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: GestureDetector(
-                    onTap: () async {
+                  child: IconButton(
+                    onPressed: () async {
+                      isReady = false;
                       scanId = await scanner.scan();
                       id = int.parse(scanId);
-                      checkQr(id);
+
+                      for (var i = 0; i < model.length; i++) {
+                        print(model[i].id);
+
+                        if (model[i].id == id) isReady = true;
+                        if (isReady == true) i = model.length;
+                      }
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => (isReady == true)
                               ? ModalPage(id: id)
-                              : WareHouseOnlinePage(),
+                              : WareHousePage(),
                         ),
                       );
                     },
-                    child: Icon(Momentumicon.qr),
+                    icon: Icon(Momentumicon.qr),
                   ),
                 ),
               ],
@@ -214,7 +223,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
           Expanded(
             child: (searchController.text != "")
                 ? _createListViewBuilder(productSearch)
-                : _createListViewBuilder(productWarehouseaOffline),
+                : _createListViewBuilder(model),
           ),
         ],
       ),

@@ -149,7 +149,7 @@ class _AddProductBodyState extends State<AddProductBody> {
                   height: 50,
                   padding: EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Color(0xffE5E5E5),
                     ),

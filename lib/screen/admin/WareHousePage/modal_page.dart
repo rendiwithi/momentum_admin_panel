@@ -24,7 +24,7 @@ class _ModalPageState extends State<ModalPage> {
           WareHouseBody(),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/admin/warehouse');
+              Navigator.pushReplacementNamed(context, '/admin/home');
             },
             child: Container(
               height: MediaQuery.of(context).size.height,
@@ -183,7 +183,7 @@ class _ModalPageState extends State<ModalPage> {
                     onTap: () {
                       model.stock = model.stock + add;
                       Navigator.pushReplacementNamed(
-                          context, '/admin/warehouse');
+                          context, '/admin/home');
                     },
                     child: Container(
                       height: 50,

@@ -10,13 +10,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: cBlack,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: cBlack,
+      ),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: routes,
-    );
+    ); 
   }
 }
