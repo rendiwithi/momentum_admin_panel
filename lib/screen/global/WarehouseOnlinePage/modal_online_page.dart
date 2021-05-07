@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/components/body.dart';
+import 'package:momentum_admin_panel/screen/global/WarehouseOnlinePage/components/body.dart';
 
 // ignore: must_be_immutable
-class ModalPage extends StatefulWidget {
+class ModalOnlinePage extends StatefulWidget {
   int id;
-  ModalPage({Key key, @required this.id}) : super(key: key);
+  ModalOnlinePage({Key key, @required this.id}) : super(key: key);
 
   @override
-  _ModalPageState createState() => _ModalPageState();
+  _ModalOnlinePageState createState() => _ModalOnlinePageState();
 }
 
-class _ModalPageState extends State<ModalPage> {
+class _ModalOnlinePageState extends State<ModalOnlinePage> {
   int add = 1;
   Color colorDisable = Color(0xffCACACA);
   Color colorEnable = Color(0xff000000);
   @override
   Widget build(BuildContext context) {
-    ProductModel model = productWarehouseaOffline[widget.id];
+    ProductModel model = productWarehouseaOnline[widget.id];
     return Scaffold(
       body: Stack(
         children: [
-          WareHouseBody(),
+          WareHouseOnlineBody(),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/admin/home');
+              Navigator.pushReplacementNamed(context, '/admin/onlinewarehouse');
             },
             child: Container(
               height: MediaQuery.of(context).size.height,
@@ -183,7 +183,7 @@ class _ModalPageState extends State<ModalPage> {
                     onTap: () {
                       model.stock = model.stock + add;
                       Navigator.pushReplacementNamed(
-                          context, '/admin/home');
+                          context, '/admin/onlinewarehouse');
                     },
                     child: Container(
                       height: 50,

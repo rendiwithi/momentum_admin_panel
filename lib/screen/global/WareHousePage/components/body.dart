@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/modal_page.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/warehouse_page.dart';
 import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
-class WareHouseOnlineBody extends StatefulWidget {
+import '../modal_page.dart';
+import '../warehouse_page.dart';
+
+class WareHouseBody extends StatefulWidget {
   @override
-  _WareHouseOnlineBodyState createState() => _WareHouseOnlineBodyState();
+  _WareHouseBodyState createState() => _WareHouseBodyState();
 }
 
-class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
+class _WareHouseBodyState extends State<WareHouseBody> {
   int id;
   String scanId;
   List<ProductModel> productSearch = [];
-  bool isStockLow = false, isReady;
+  List<ProductModel> model = productWarehouseaOffline;
+  bool isStockLow = false, isReady = false;
   TextEditingController searchController = new TextEditingController();
-  List<ProductModel> model = productWarehouseaOnline;
 
   void isLow() {
     for (var i = 0; i < model.length; i++) {
@@ -44,8 +44,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ModalPage(id: model[index].id)),
+                  builder: (context) => ModalPage(id: model[index].id)),
             );
           },
           child: Container(
@@ -177,7 +176,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                       },
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Cari APAAJAH",
+                        hintText: "Cari Produk",
                         prefixIcon: Icon(Momentumicon.search),
                       ),
                     ),

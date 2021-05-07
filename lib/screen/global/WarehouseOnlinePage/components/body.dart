@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/modal_page.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/warehouse_page.dart';
+import 'package:momentum_admin_panel/screen/global/WarehouseOnlinePage/modal_online_page.dart';
+import 'package:momentum_admin_panel/screen/global/WarehouseOnlinePage/warehouse_online_page.dart';
 import 'package:momentum_admin_panel/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/widgets/warning.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
-class WareHouseBody extends StatefulWidget {
+class WareHouseOnlineBody extends StatefulWidget {
   @override
-  _WareHouseBodyState createState() => _WareHouseBodyState();
+  _WareHouseOnlineBodyState createState() => _WareHouseOnlineBodyState();
 }
 
-class _WareHouseBodyState extends State<WareHouseBody> {
+class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   int id;
   String scanId;
   List<ProductModel> productSearch = [];
-  List<ProductModel> model = productWarehouseaOffline;
-  bool isStockLow = false, isReady = false;
+  bool isStockLow = false, isReady;
   TextEditingController searchController = new TextEditingController();
+  List<ProductModel> model = productWarehouseaOnline;
 
   void isLow() {
     for (var i = 0; i < model.length; i++) {
@@ -43,7 +43,8 @@ class _WareHouseBodyState extends State<WareHouseBody> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => ModalPage(id: model[index].id)),
+                  builder: (context) =>
+                      ModalOnlinePage(id: model[index].id)),
             );
           },
           child: Container(
@@ -183,12 +184,6 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 ),
                 Expanded(
                   flex: 1,
-                  // child: ElevatedButton(
-                  //   onPressed: () async{
-                  //     scanId = await scanner.scan();
-                  //   },
-                  //   child: Icon(Momentumicon.qr),
-                  // ),
                   child: IconButton(
                     onPressed: () async {
                       isReady = false;
@@ -205,8 +200,8 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => (isReady == true)
-                              ? ModalPage(id: id)
-                              : WareHousePage(),
+                              ? ModalOnlinePage(id: id)
+                              : WareHouseOnlinePage(),
                         ),
                       );
                     },

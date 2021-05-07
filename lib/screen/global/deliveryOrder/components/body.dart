@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/order_model.dart';
-import 'package:momentum_admin_panel/screen/global/DeliveryOrder/added_sales_page.dart';
+import '../added_sales_page.dart';
 
 class DeliveryOrderBody extends StatefulWidget {
   @override

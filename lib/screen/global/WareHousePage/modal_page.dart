@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/components/body.dart';
+
+import 'components/body.dart';
 
 // ignore: must_be_immutable
-class ModalOnlinePage extends StatefulWidget {
+class ModalPage extends StatefulWidget {
   int id;
-  ModalOnlinePage({Key key, @required this.id}) : super(key: key);
+  ModalPage({Key key, @required this.id}) : super(key: key);
 
   @override
-  _ModalOnlinePageState createState() => _ModalOnlinePageState();
+  _ModalPageState createState() => _ModalPageState();
 }
 
-class _ModalOnlinePageState extends State<ModalOnlinePage> {
+class _ModalPageState extends State<ModalPage> {
   int add = 1;
   Color colorDisable = Color(0xffCACACA);
   Color colorEnable = Color(0xff000000);
   @override
   Widget build(BuildContext context) {
-    ProductModel model = productWarehouseaOnline[widget.id];
+    ProductModel model = productWarehouseaOffline[widget.id];
     return Scaffold(
       body: Stack(
         children: [

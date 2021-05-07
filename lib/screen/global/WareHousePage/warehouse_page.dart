@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/screen/admin/WareHousePage/components/body.dart';
+
+import 'components/body.dart';
 
 class WareHousePage extends StatelessWidget {
   @override
