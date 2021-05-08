@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/screen/global/myProduct/addProduct/add_product_screen.dart';
+import 'package:momentum_admin_panel/screen/global/myProduct/waiting_approval_body.dart/waitting_approval_body.dart';
 import 'package:momentum_admin_panel/widgets/search.dart';
+
+import 'myProcutBody/my_product_body.dart';
 
 class MyProductScreen extends StatefulWidget {
   @override
@@ -10,24 +14,20 @@ class MyProductScreen extends StatefulWidget {
 class _MyProductScreenState extends State<MyProductScreen> {
   Color colorL, colorR;
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Produk Saya',
-      style: optionStyle,
-    ),
-    Text(
-      'Menunggu Persetujuan',
-      style: optionStyle,
-    ),
+  static List<Widget> _widgetOptions = <Widget>[
+    MyProductBody(),
+    WaittingApprovalBody(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      (_selectedIndex == 0)?colorL = Color(0xffE8B730): colorL = Colors.white;
-      (_selectedIndex == 1)?colorR = Color(0xffE8B730): colorR = Colors.white;
+      (_selectedIndex == 0)
+          ? colorL = Color(0xffE8B730)
+          : colorL = Colors.white;
+      (_selectedIndex == 1)
+          ? colorR = Color(0xffE8B730)
+          : colorR = Colors.white;
     });
   }
 
@@ -35,6 +35,21 @@ class _MyProductScreenState extends State<MyProductScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddProductScreen(),
+              ),
+            );
+          },
+          backgroundColor: Color(0xffE8B730),
+          child: Icon(
+            Icons.add,
+            color: Color(0xff715815),
+          ),
+        ),
         appBar: AppBar(
           title: Text("Produk Saya"),
           centerTitle: true,
@@ -42,7 +57,7 @@ class _MyProductScreenState extends State<MyProductScreen> {
         ),
         body: Container(
           color: cGrey,
-          child: ListView(
+          child: Column(
             children: [
               Container(
                 color: Colors.white,
@@ -83,10 +98,8 @@ class _MyProductScreenState extends State<MyProductScreen> {
                   ),
                 ],
               ),
-              Container(
-                child: Center(
-                  child: _widgetOptions.elementAt(_selectedIndex),
-                ),
+              Expanded(
+                child: _widgetOptions.elementAt(_selectedIndex),
               ),
             ],
           ),
