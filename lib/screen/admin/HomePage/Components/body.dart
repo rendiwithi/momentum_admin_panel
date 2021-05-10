@@ -96,7 +96,7 @@ class HomePageBody extends StatelessWidget {
                       icon:  Momentumicon.icon_produk_toko,
                       title: "Produk Toko",
                       data: "251 Produk",
-                      route: '/global/myProduct',
+                      route: '/admin/myProduct',
                     ),
                   ],
                 ),
@@ -116,7 +116,7 @@ class HomePageBody extends StatelessWidget {
                       icon:  Momentumicon.icon_ulasan_produk,
                       title: "Ulasan Produk",
                       data: "4 Ulasan",
-                      route: '/trial',
+                      route: '/global/productReview',
                     ),
                     CreateMenu(
                       icon:  Momentumicon.icon_data_reseller,

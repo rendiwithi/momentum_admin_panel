@@ -143,7 +143,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_ulasan_produk,
                       title: "Ulasan Produk",
                       data: "4 Ulasan",
-                      route: '/trial',
+                      route: '/global/productReview',
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_data_reseller,
