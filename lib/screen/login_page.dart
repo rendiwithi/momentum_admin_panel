@@ -19,19 +19,20 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Positioned(
-              bottom: -25,
-              right: -25,
-              child: Container(
-                height: 125,
-                width: 125,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/logo/decoration.png',
-                      ),
-                      fit: BoxFit.fill),
-                ),
-              )),
+            bottom: -25,
+            right: -25,
+            child: Container(
+              height: 125,
+              width: 125,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/logo/decoration.png',
+                    ),
+                    fit: BoxFit.fill),
+              ),
+            ),
+          ),
           Positioned(
               bottom: -20,
               right: 100,
@@ -146,14 +147,16 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.only(top: 28),
                     height: 50,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            colors: [
-                              Color(0xffD1B749),
-                              Color(0xffDFC585),
-                              Color(0xffBE9E50),
-                            ])),
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        colors: [
+                          Color(0xffD1B749),
+                          Color(0xffDFC585),
+                          Color(0xffBE9E50),
+                        ],
+                      ),
+                    ),
                     child: Center(
                         child: Text(
                       "Masuk sekarang",

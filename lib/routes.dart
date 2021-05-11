@@ -9,6 +9,7 @@ import 'package:momentum_admin_panel/screen/global/myProduct/addProduct/add_prod
 import 'package:momentum_admin_panel/screen/global/myProduct/my_product_admin.dart';
 import 'package:momentum_admin_panel/screen/global/myProduct/my_product_screen.dart';
 import 'package:momentum_admin_panel/screen/global/productReview/product_review_screen.dart';
+import 'package:momentum_admin_panel/screen/global/resellerData/reseller_data.dart';
 import 'package:momentum_admin_panel/screen/login_page.dart';
 import 'package:momentum_admin_panel/screen/sysAdmin/HomePage/home_page.dart';
 import 'package:momentum_admin_panel/underConst.dart';
@@ -24,7 +25,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/admin/order': (ctx) => DeliveryOrderPage(),
   '/global/addProduct': (ctx) => AddProductScreen(),
   '/global/productReview': (ctx) => ProductReviews(),
-  '/global/myProduct': (ctx) => MyProductScreen(),
+  '/global/ResellerData': (ctx) => ResselerDataScreen(),
   '/admin/myProduct': (ctx) => MyProductAdmin(),
   '/trial': (ctx) => UnderConstruction(),
 };

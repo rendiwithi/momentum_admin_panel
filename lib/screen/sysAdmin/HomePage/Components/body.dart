@@ -149,7 +149,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_data_reseller,
                       title: "Data Reseller",
                       data: "",
-                      route: '/trial',
+                      route: '/global/ResellerData',
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_voucher_kupon,
