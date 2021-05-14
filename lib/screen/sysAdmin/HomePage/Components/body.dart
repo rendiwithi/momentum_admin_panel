@@ -122,7 +122,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_produk_toko,
                       title: "Produk Toko",
                       data: "251 Produk",
-                      route: '/global/myProduct',
+                      route: '/sysadmin/myProduct',
                       isNew: true,
                     ),
                   ],
@@ -155,7 +155,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_voucher_kupon,
                       title: "Voucher Kupon",
                       data: "",
-                      route: '/trial',
+                      route: '/global/addVoucher',
                       isNew: true,
                     ),
                     CreateMenu(

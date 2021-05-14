@@ -40,15 +40,6 @@ class ResellerModel {
     this.discount,
     this.profuctSells,
   });
-
-  // ResellerModel({
-  //   this.id,
-  //   this.name,
-  //   this.email,
-  //   this.profit,
-  //   this.imgUrl,
-  //   this.isValidate,
-  // });
 }
 
 var resellerMomentumModel = [

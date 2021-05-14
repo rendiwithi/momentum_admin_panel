@@ -19,7 +19,9 @@ class _ResselerDataScreenState extends State<ResselerDataScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ResellerDetailPage(data: data,),
+            builder: (context) => ResellerDetailPage(
+              data: data,
+            ),
           ),
         );
       },
@@ -175,7 +177,23 @@ class _ResselerDataScreenState extends State<ResselerDataScreen> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: cBlack,
-          title: Text("Data Reseller"),
+          title: Text(
+            "Data Reseller",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          elevation: 0,
+          backgroundColor: Color(0xffE8B730),
+          child: Icon(
+            Icons.add,
+            color: Color(0xff715815),
+          ),
         ),
         body: ListView.builder(
           itemCount: 1 + model.length,

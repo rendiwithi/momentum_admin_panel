@@ -36,6 +36,7 @@ class _MyProductScreenState extends State<MyProductScreen> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
+          elevation: 0,
           onPressed: () {
             Navigator.push(
               context,
@@ -51,7 +52,14 @@ class _MyProductScreenState extends State<MyProductScreen> {
           ),
         ),
         appBar: AppBar(
-          title: Text("Produk Saya"),
+          title: Text(
+            "Produk Saya",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
           centerTitle: true,
           backgroundColor: cBlack,
         ),

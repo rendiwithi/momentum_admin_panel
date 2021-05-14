@@ -229,13 +229,20 @@ class _ProductReviewsState extends State<ProductReviews> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Ulasan Produk"),
+          title: Text(
+            "Ulasan Produk",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
           backgroundColor: cBlack,
           elevation: 0,
         ),

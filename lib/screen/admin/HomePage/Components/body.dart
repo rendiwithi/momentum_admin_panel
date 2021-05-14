@@ -128,7 +128,7 @@ class HomePageBody extends StatelessWidget {
                       icon:  Momentumicon.icon_voucher_kupon,
                       title: "Voucher Kupon",
                       data: "",
-                      route: '/trial',
+                      route: '/global/addVoucher',
                     ),
                     CreateMenu(
                       icon:  Momentumicon.icon_kelola_banner,

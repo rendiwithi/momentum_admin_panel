@@ -11,6 +11,7 @@ class MyProductAdmin extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
+          elevation: 0,
           onPressed: () {
             Navigator.push(
               context,
@@ -26,7 +27,14 @@ class MyProductAdmin extends StatelessWidget {
           ),
         ),
         appBar: AppBar(
-          title: Text("Produk Saya"),
+          title: Text(
+            "Produk Saya",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
           centerTitle: true,
           backgroundColor: cBlack,
         ),
@@ -40,7 +48,6 @@ class MyProductAdmin extends StatelessWidget {
                     EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
                 child: SearchBar(),
               ),
-              
               Expanded(
                 child: MyProductBody(),
               ),
