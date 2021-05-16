@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/reseller_model.dart';
+import 'package:momentum_admin_panel/screen/global/resellerData/add_%20reseller_page.dart/add_reseller_page.dart';
 import 'package:momentum_admin_panel/screen/global/resellerData/resellerDetail/reseller_detail_page.dart';
 
 class ResselerDataScreen extends StatefulWidget {
@@ -187,7 +188,14 @@ class _ResselerDataScreenState extends State<ResselerDataScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddResellerPage(),
+              ),
+            );
+          },
           elevation: 0,
           backgroundColor: Color(0xffE8B730),
           child: Icon(
