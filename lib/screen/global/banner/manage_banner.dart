@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
 
+import 'addBanner.dart';
+
 class ManageBanner extends StatefulWidget {
   @override
   _ManageBannerState createState() => _ManageBannerState();
@@ -214,12 +216,12 @@ class _ManageBannerState extends State<ManageBanner> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => AddResellerPage(),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddBanner(),
+              ),
+            );
           },
           elevation: 0,
           backgroundColor: Color(0xffE8B730),
