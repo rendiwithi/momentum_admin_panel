@@ -134,7 +134,7 @@ class HomePageBody extends StatelessWidget {
                       icon:  Momentumicon.icon_kelola_banner,
                       title: "Kelola Banner",
                       data: "",
-                      route: '/trial',
+                      route: '/admin/manageBanner',
                     ),
                     CreateMenu(
                       icon:  Momentumicon.icon_status_pesanan,
