@@ -140,7 +140,7 @@ class HomePageBody extends StatelessWidget {
                       icon:  Momentumicon.icon_status_pesanan,
                       title: "Status Pesanan",
                       data: "",
-                      route: '/trial',
+                      route: '/global/statusProduct',
                     ),
                   ],
                 ),

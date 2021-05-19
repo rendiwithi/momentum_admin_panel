@@ -11,6 +11,7 @@ import 'package:momentum_admin_panel/screen/global/myProduct/my_product_admin.da
 import 'package:momentum_admin_panel/screen/global/myProduct/my_product_screen.dart';
 import 'package:momentum_admin_panel/screen/global/productReview/product_review_screen.dart';
 import 'package:momentum_admin_panel/screen/global/resellerData/reseller_data.dart';
+import 'package:momentum_admin_panel/screen/global/status/status_product.dart';
 import 'package:momentum_admin_panel/screen/global/voucher/voucher_diskon.dart';
 import 'package:momentum_admin_panel/screen/login_page.dart';
 import 'package:momentum_admin_panel/screen/sysAdmin/HomePage/home_page.dart';
@@ -29,6 +30,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/global/productReview': (ctx) => ProductReviews(),
   '/global/ResellerData': (ctx) => ResselerDataScreen(),
   '/global/addVoucher': (ctx) => VoucherDiscountScreen(),
+  '/global/statusProduct': (ctx) => StatusProduct(),
   '/admin/manageBanner': (ctx) => ManageBanner(),
   '/admin/myProduct': (ctx) => MyProductAdmin(),
   '/sysadmin/myProduct': (ctx) => MyProductScreen(),
