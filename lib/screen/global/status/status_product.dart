@@ -91,7 +91,7 @@ class _StatusProductState extends State<StatusProduct> {
                           right: 30,
                           left: 30,
                         ),
-                        child: Center(child: Text("paid")),
+                        child: Center(child: Text("Paid")),
                       ),
                     ),
                     GestureDetector(

@@ -90,8 +90,8 @@ class ResellerDetailPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(
+                        Padding(
+                          padding: EdgeInsets.only(
                             top: 20,
                             left: 15,
                             right: 15,
@@ -102,6 +102,7 @@ class ResellerDetailPage extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
+                                  print("object aowkoawkoakw");
                                 },
                                 child: Icon(
                                   Momentumicon.arrow_left,
