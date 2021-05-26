@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateWearhouse extends StatefulWidget {
   final IconData icon;
@@ -185,7 +186,11 @@ class QuitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString("userName", "");
+        pref.setString("userPassword", "");
+        pref.setBool('status', false);
         Navigator.pushReplacementNamed(context, '/');
       },
       child: Container(

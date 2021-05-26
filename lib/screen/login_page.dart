@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momentum_admin_panel/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,6 +13,68 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController userController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   var user, password;
+  UserModel model;
+  void loginUser() async {
+    user = userController.text;
+    password = passwordController.text;
+    print(user);
+    print(password);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    for (var i = 0; i < userData.length; i++) {
+      if (user == userData[i].username && password == userData[i].password) {
+        model = userData[i];
+        pref.setString("userName", model.username);
+        pref.setString("userPassword", model.password);
+        i = userData.length;
+      }
+    }
+    if (model.type == "admin") {
+      pref.setBool('status', true);
+      Navigator.pushReplacementNamed(context, '/admin/home');
+    } else if (model.type == "sysadmin") {
+      pref.setBool('status', true);
+      Navigator.pushReplacementNamed(context, '/sysadmin/home');
+    } else {
+      Fluttertoast.showToast(
+        msg: "Username Atau Password Tidak Cocok",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
+  Future loadUser() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    for (var i = 0; i < userData.length; i++) {
+      if (userData[i].username == pref.getString("userName") &&
+          userData[i].password == pref.getString("userPassword")) {
+        model = userData[i];
+        i = userData.length;
+      }
+    }
+    if (model.type == "admin") {
+      pref.setBool('status', true);
+      Navigator.pushReplacementNamed(context, '/admin/home');
+    } else if (model.type == "sysadmin") {
+      pref.setBool('status', true);
+      Navigator.pushReplacementNamed(context, '/sysadmin/home');
+    } else {
+      pref.setBool('status', false);
+    }
+  }
+
+  void checkStatus() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getBool('status')) {
+      loadUser();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,25 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    user = userController.text;
-                    password = passwordController.text;
-                    String admin = "admin";
-                    String adminPass = "admin123";
-                    print(user);
-                    print(password);
-                    if (user == admin && password == adminPass) {
-                      Navigator.pushReplacementNamed(context, '/admin/home');
-                    } else if (user == "sysadmin" &&
-                        password == 'sysadmin123') {
-                      Navigator.pushReplacementNamed(context, '/sysadmin/home');
-                    } else {
-                      Fluttertoast.showToast(
-                        msg: "Username Atau Password Tidak Cocok",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        // timeInSecForIos: 1,
-                      );
-                    }
+                    loginUser();
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 28),
