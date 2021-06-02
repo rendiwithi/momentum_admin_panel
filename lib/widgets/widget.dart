@@ -190,7 +190,8 @@ class QuitButton extends StatelessWidget {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("userName", "");
         pref.setString("userPassword", "");
-        pref.setBool('status', false);
+        pref.setString("route", '/');
+        pref.setBool('isLogin', false);
         Navigator.pushReplacementNamed(context, '/');
       },
       child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_admin_panel/checkPage.dart';
 import 'package:momentum_admin_panel/screen/admin/HomePage/home_page.dart';
 import 'package:momentum_admin_panel/screen/global/WareHousePage/history_page.dart';
 import 'package:momentum_admin_panel/screen/global/WareHousePage/warehouse_page.dart';
@@ -18,7 +19,8 @@ import 'package:momentum_admin_panel/screen/sysAdmin/HomePage/home_page.dart';
 import 'package:momentum_admin_panel/underConst.dart';
 
 final Map<String, Widget Function(BuildContext)> routes = {
-  '/': (ctx) => LoginPage(),
+  '/': (ctx) => CheckPage(),
+  '/login': (ctx) => LoginPage(),
   '/admin/home': (ctx) => HomePage(),
   '/sysadmin/home': (ctx) => HomePageSysAdmin(),
   '/admin/onlinewarehouse': (ctx) => WareHouseOnlinePage(),
