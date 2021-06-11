@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/icon/momentumicon_icons.dart';
@@ -252,69 +252,110 @@ class _AddProductBodyState extends State<AddProductBody> {
     );
   }
 
-  Widget imageBox({File image, int index}) {
-    return GestureDetector(
-      onTap: () {
-        if (image == null) {
-          print("null");
-          getImage(imageFile: image);
-        } else {
-          print("tidak null");
-          image = null;
-        }
-        // getImage(imageIndex: image);
-      },
-      child: Container(
-        height: 160,
-        width: 160,
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: (image == null)
-            ? Container(
-                padding: EdgeInsets.all(15),
-                child: _takeFoto("Foto $index"),
-              )
-            : Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.file(image),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      height: 40,
-                      width: 160,
-                      decoration: BoxDecoration(
-                        color: Color(0xff4D000000),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Momentumicon.trash,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-      ),
-    );
+  deleteImage(int index) {
+    if (index == 0) {
+      setState(
+        () {
+          img1 = img2;
+          img2 = img3;
+          img3 = img4;
+          img4 = null;
+        },
+      );
+    } else if (index == 1) {
+      setState(
+        () {
+          img2 = img3;
+          img3 = img4;
+          img4 = null;
+        },
+      );
+    } else if (index == 2) {
+      setState(
+        () {
+          img3 = img4;
+          img4 = null;
+        },
+      );
+    } else if (index == 3) {
+      setState(
+        () {
+          img4 = null;
+        },
+      );
+    }
   }
 
-  getImage({File imageFile}) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
+  getImage(int index) async {
+    if (index == 0) {
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      setState(
+        () {
+          if (pickedFile != null) {
+            img1 = File(pickedFile.path);
+          } else {
+            print('No image selected.');
+          }
+        },
+      );
+    } else if (index == 1) {
+      if (img1 != null) {
+        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        setState(
+          () {
+            if (pickedFile != null) {
+              img2 = File(pickedFile.path);
+            } else {
+              print('No image selected.');
+            }
+          },
+        );
       } else {
-        print('No image selected.');
+        Fluttertoast.showToast(
+          msg: "Isi Gambar Sebelumnya",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
       }
-    });
+    } else if (index == 2) {
+      if (img1 != null && img2 != null) {
+        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        setState(
+          () {
+            if (pickedFile != null) {
+              img3 = File(pickedFile.path);
+            } else {
+              print('No image selected.');
+            }
+          },
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Isi Gambar Sebelumnya",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
+    } else if (index == 3) {
+      if (img1 != null && img2 != null && img3 != null) {
+        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        setState(
+          () {
+            if (pickedFile != null) {
+              img4 = File(pickedFile.path);
+            } else {
+              print('No image selected.');
+            }
+          },
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Isi Gambar Sebelumnya",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
+    }
   }
 
   @override
@@ -353,320 +394,75 @@ class _AddProductBodyState extends State<AddProductBody> {
               ],
             ),
           ),
-
-          // Container(
-          //   color: Colors.white,
-          //   child: GridView.count(
-          //     shrinkWrap: true,
-          //     padding: EdgeInsets.only(bottom: 10),
-          //     crossAxisCount: 2,
-          //     children: List.generate(
-          //       4,
-          //       (index) {
-          //         File imageIndex;
-          //         return ;
-          //       },
-          //     ),
-          //   ),
-          // ),
           Container(
             color: Colors.white,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    "Foto Produk",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
+            child: GridView.count(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(bottom: 10),
+              crossAxisCount: 2,
+              children: List.generate(
+                4,
+                (index) {
+                  var image;
+                  if (index == 0) {
+                    image = img1;
+                  } else if (index == 1) {
+                    image = img2;
+                  } else if (index == 2) {
+                    image = img3;
+                  } else if (index == 3) {
+                    image = img4;
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      (image == null) ? getImage(index) : deleteImage(index);
+                    },
+                    child: Container(
+                      height: 160,
+                      width: 160,
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: (image == null)
+                          ? Container(
+                              padding: EdgeInsets.all(15),
+                              child: _takeFoto("Foto ${index + 1}"),
+                            )
+                          : Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    image,
+                                    height: 160,
+                                    width: 160,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    height: 40,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff4D000000),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Momentumicon.trash,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                     ),
-                  ),
-                ),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            if (img1 == null) {
-                              print("null");
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.gallery);
-                              setState(
-                                () {
-                                  if (pickedFile != null) {
-                                    img1 = File(pickedFile.path);
-                                  } else {
-                                    print('No image selected.');
-                                  }
-                                },
-                              );
-                            } else {
-                              print("tidak null");
-                              setState(() {
-                                img1 = null;
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 160,
-                            width: 160,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: (img1 == null)
-                                ? Container(
-                                    padding: EdgeInsets.all(15),
-                                    child: _takeFoto("Foto 1"),
-                                  )
-                                : Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          img1,
-                                          height: 160,
-                                          width: 160,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff4D000000),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Momentumicon.trash,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            if (img2 == null) {
-                              print("null");
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.gallery);
-                              setState(
-                                () {
-                                  if (pickedFile != null) {
-                                    img2 = File(pickedFile.path);
-                                  } else {
-                                    print('No image selected.');
-                                  }
-                                },
-                              );
-                            } else {
-                              print("tidak null");
-                              setState(() {
-                                img2 = null;
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 160,
-                            width: 160,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: (img2 == null)
-                                ? Container(
-                                    padding: EdgeInsets.all(15),
-                                    child: _takeFoto("Foto 2"),
-                                  )
-                                : Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          img2,
-                                          height: 160,
-                                          width: 160,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff4D000000),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Momentumicon.trash,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            if (img3 == null) {
-                              print("null");
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.gallery);
-                              setState(
-                                () {
-                                  if (pickedFile != null) {
-                                    img3 = File(pickedFile.path);
-                                  } else {
-                                    print('No image selected.');
-                                  }
-                                },
-                              );
-                            } else {
-                              print("tidak null");
-                              setState(() {
-                                img3 = null;
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 160,
-                            width: 160,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: (img3 == null)
-                                ? Container(
-                                    padding: EdgeInsets.all(15),
-                                    child: _takeFoto("Foto 3"),
-                                  )
-                                : Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          img3,
-                                          height: 160,
-                                          width: 160,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff4D000000),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Momentumicon.trash,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            if (img4 == null) {
-                              print("null");
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.gallery);
-                              setState(
-                                () {
-                                  if (pickedFile != null) {
-                                    img4 = File(pickedFile.path);
-                                  } else {
-                                    print('No image selected.');
-                                  }
-                                },
-                              );
-                            } else {
-                              print("tidak null");
-                              setState(() {
-                                img4 = null;
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 160,
-                            width: 160,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: (img4 == null)
-                                ? Container(
-                                    padding: EdgeInsets.all(15),
-                                    child: _takeFoto("Foto 4"),
-                                  )
-                                : Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          img4,
-                                          height: 160,
-                                          width: 160,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff4D000000),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Momentumicon.trash,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
+                  );
+                },
+              ),
             ),
           ),
           Container(
