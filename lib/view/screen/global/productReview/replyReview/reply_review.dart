@@ -1,0 +1,201 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/model/productReview.dart';
+
+import '../product_review_screen.dart';
+
+class ReplyReviewScreen extends StatefulWidget {
+  final ProductReviewModel model;
+  ReplyReviewScreen({Key key, @required this.model}) : super(key: key);
+
+  @override
+  _ReplyReviewScreenState createState() => _ReplyReviewScreenState();
+}
+
+class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
+  TextEditingController replyController = new TextEditingController();
+
+  var review;
+  Widget _createStar(int rating) {
+    return Row(
+      children: [
+        Icon(
+          Momentumicon.star,
+          color: (1 <= rating) ? Color(0xffFFC107) : Color(0xffD8D8D8),
+          size: 18,
+        ),
+        Icon(
+          Momentumicon.star,
+          color: (2 <= rating) ? Color(0xffFFC107) : Color(0xffD8D8D8),
+          size: 18,
+        ),
+        Icon(
+          Momentumicon.star,
+          color: (3 <= rating) ? Color(0xffFFC107) : Color(0xffD8D8D8),
+          size: 18,
+        ),
+        Icon(
+          Momentumicon.star,
+          color: (4 <= rating) ? Color(0xffFFC107) : Color(0xffD8D8D8),
+          size: 18,
+        ),
+        Icon(
+          Momentumicon.star,
+          color: (5 == rating) ? Color(0xffFFC107) : Color(0xffD8D8D8),
+          size: 18,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Balas Produk"),
+          backgroundColor: cBlack,
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Color(0xffF5F5F5),
+            ),
+            ListView(
+              children: [
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.model.user,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff6000000),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              widget.model.time,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(0xff666666),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      _createStar(widget.model.rating),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(top: 1),
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    widget.model.review,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff666666),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Color(0xffE5E5E5),
+                      ),
+                    ),
+                    child: TextField(
+                      style: TextStyle(color: Colors.black),
+                      maxLines: 10,
+                      controller: replyController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Berikan balasan untuk ulasan ini",
+                        hintStyle: TextStyle(
+                          color: Color(0xff696969),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                padding:
+                    EdgeInsets.only(bottom: 12, top: 12, left: 15, right: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    review = replyController.text;
+                    print(review);
+                    widget.model.reviewReply = replyController.text;
+                    widget.model.timeReply = "15 Juni 2021";
+                    widget.model.userReply = "Momentum Admin";
+                    (review == ""||review == " "||review == "  ")?Fluttertoast.showToast(
+                        msg: "Masukkan Review Anda",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        // timeInSecForIos: 1,
+                      ):Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductReviews(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                        color: cBlack, borderRadius: BorderRadius.circular(10)),
+                    // onPressed: () {
+                    // review=replyController.text;
+                    // print(review);
+                    // widget.model.reviewReply = replyController.text;
+                    // widget.model.timeReply = "15 Juni 2021";
+                    // widget.model.userReply = "Momentum Admin";
+                    // },
+
+                    child: Center(
+                      child: Text(
+                        "Tambahkan Balasan",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
