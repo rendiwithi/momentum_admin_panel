@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momentum_admin_panel/constant/TextStyleCustom.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/productReview.dart';
-
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import '../product_review_screen.dart';
 
 class ReplyReviewScreen extends StatefulWidget {
@@ -16,7 +18,8 @@ class ReplyReviewScreen extends StatefulWidget {
 
 class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
   TextEditingController replyController = new TextEditingController();
-
+  FilePickerResult result;
+  String name;
   var review;
   Widget _createStar(int rating) {
     return Row(
@@ -48,6 +51,24 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
         ),
       ],
     );
+  }
+
+  void chooseImage() async {
+    result = await FilePicker.platform.pickFiles(
+      type: FileType.media,
+    );
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      print(file.name);
+      name = file.name;
+      print(file.bytes);
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    } else {
+      print("Ga ada pilihan");
+    }
   }
 
   @override
@@ -104,7 +125,6 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                 ),
                 Container(
                   color: Colors.white,
-                  margin: EdgeInsets.only(top: 1),
                   padding: EdgeInsets.all(15),
                   child: Text(
                     widget.model.review,
@@ -116,27 +136,78 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                 ),
                 Container(
                   color: Colors.white,
+                  margin: EdgeInsets.only(top: 1),
                   padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    padding: EdgeInsets.only(left: 15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Color(0xffE5E5E5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Beri Balasan",
+                        style: titleBold,
                       ),
-                    ),
-                    child: TextField(
-                      style: TextStyle(color: Colors.black),
-                      maxLines: 10,
-                      controller: replyController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Berikan balasan untuk ulasan ini",
-                        hintStyle: TextStyle(
-                          color: Color(0xff696969),
+                      Container(
+                        padding: EdgeInsets.only(left: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Color(0xffE5E5E5),
+                          ),
+                        ),
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          maxLines: 10,
+                          controller: replyController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Berikan balasan untuk ulasan ini",
+                            hintStyle: TextStyle(
+                              color: Color(0xff696969),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Text(
+                        "Lampiran",
+                        style: titleBold,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          result = await FilePicker.platform.pickFiles(
+                            type: FileType.media,
+                          );
+                          setState(() {
+                            if (result != null) {
+                              PlatformFile file = result.files.first;
+
+                              print(file.name);
+                              name = file.name;
+                              print(file.bytes);
+                              print(file.size);
+                              print(file.extension);
+                              print(file.path);
+                            } else {
+                              print("Ga ada pilihan");
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                          child: Row(
+                            children: [
+                              Icon(Icons.attach_file),
+                              Text(
+                                (result != null)
+                                    ? name
+                                    : "Tambahkan File / Foto",
+                                style: titleBold,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -157,17 +228,19 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                     widget.model.reviewReply = replyController.text;
                     widget.model.timeReply = "15 Juni 2021";
                     widget.model.userReply = "Momentum Admin";
-                    (review == ""||review == " "||review == "  ")?Fluttertoast.showToast(
-                        msg: "Masukkan Review Anda",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        // timeInSecForIos: 1,
-                      ):Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductReviews(),
-                      ),
-                    );
+                    (review == "" || review == " " || review == "  ")
+                        ? Fluttertoast.showToast(
+                            msg: "Masukkan Review Anda",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            // timeInSecForIos: 1,
+                          )
+                        : Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductReviews(),
+                            ),
+                          );
                   },
                   child: Container(
                     height: 70,

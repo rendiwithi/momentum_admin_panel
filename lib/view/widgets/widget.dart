@@ -67,7 +67,7 @@ class _CreateDeliveryState extends State<CreateDelivery> {
       },
       child: Container(
         width: 144,
-        height: 25,
+        height: 60,
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

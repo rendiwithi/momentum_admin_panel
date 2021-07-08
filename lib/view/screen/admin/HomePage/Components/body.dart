@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
-import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/constant/TextStyleCustom.dart';
+import 'package:momentum_admin_panel/view/widgets/top_menu.dart';
 import 'package:momentum_admin_panel/view/widgets/widget.dart';
 
 class HomePageBody extends StatelessWidget {
@@ -12,69 +13,7 @@ class HomePageBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 280,
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 150,
-                      color: cBlack,
-                      child: Center(
-                        child: Image.asset(
-                          'assets/logo/logo.png',
-                          width: 200,
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 120,
-                      right: 10,
-                      left: 10,
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        height: 150,
-                        width: 330,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Text(
-                                "Kelola Gudang",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CreateWearhouse(
-                                  icon: Momentumicon.warehouse,
-                                  title: "Warehouse",
-                                  route: '/admin/warehouse',
-                                ),
-                                CreateWearhouse(
-                                  icon: Momentumicon.warehouse,
-                                  title: "Stok Online",
-                                  route: '/admin/onlinewarehouse',
-                                ),
-                              ],
-                            ),
-                            Center(child: CreateDelivery()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              topMenu(),
               Container(
                 margin: EdgeInsets.all(15),
                 padding: EdgeInsets.all(15),
@@ -84,7 +23,10 @@ class HomePageBody extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: Text("Produk Kamu"),
+                      child: Text(
+                        "Produk Kamu",
+                        style: titleBold,
+                      ),
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_tambah_produk,
@@ -110,7 +52,10 @@ class HomePageBody extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: Text("Lainnya"),
+                      child: Text(
+                        "Lainnya",
+                        style: titleBold,
+                      ),
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_ulasan_produk,
@@ -151,7 +96,9 @@ class HomePageBody extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                      margin: EdgeInsets.only(left: 16), child: QuitButton()),
+                    margin: EdgeInsets.only(left: 16),
+                    child: QuitButton(),
+                  ),
                 ),
               )
             ],
@@ -159,5 +106,5 @@ class HomePageBody extends StatelessWidget {
         ),
       ],
     );
-  }
+  } 
 }

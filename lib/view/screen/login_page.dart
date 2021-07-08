@@ -50,18 +50,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void check() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    if (pref.getBool('isLogin') == true) {
-      Navigator.pushReplacementNamed(context, pref.getString('route'));
-      isLogin = true;
-    }
-  }
+
 
   @override
   void initState() {
     super.initState();
-    check();
   }
 
   @override
