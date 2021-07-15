@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momentum_admin_panel/model/Api_model/login_model.dart';
 import 'package:momentum_admin_panel/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,43 +15,33 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = new TextEditingController();
   UserModel model;
   bool isLogin = false;
+  LoginResult loginResult;
 
-  void loginUser() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    for (var i = 0; i < userData.length; i++) {
-      if (userController.text == userData[i].username &&
-          passwordController.text == userData[i].password) {
-        model = userData[i];
-        pref.setString("userName", model.username);
-        pref.setString("userPassword", model.password);
-        i = userData.length;
-      } else {
-        pref.setString("userName", "");
-        pref.setString("userPassword", "");
+  void loginUser({String user, String pass}) async {
+    if (loginResult.code == 200) {
+      if (loginResult.role == "admin") {
+        Navigator.pushReplacementNamed(context, '/admin/home');
+        saveLogin(u: user, p: pass, l: true, r: '/admin/home');
+      } else if (loginResult.role == "sysadmin") {
+        Navigator.pushReplacementNamed(context, '/sysadmin/home');
+        saveLogin(u: user, p: pass, l: true, r: '/sysadmin/home');
       }
-    }
-
-    if (pref.getString("userName") == "" ||
-        pref.getString("userPassword") == "") {
+    } else {
       Fluttertoast.showToast(
-        msg: "Username Atau Password Salah",
+        msg: loginResult.message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
-    } else {
-      if (model.type == "admin") {
-        pref.setString('route', '/admin/home');
-        pref.setBool('isLogin', true);
-        Navigator.pushReplacementNamed(context, '/admin/home');
-      } else if (model.type == "sysadmin") {
-        pref.setString('route', '/sysadmin/home');
-        pref.setBool('isLogin', true);
-        Navigator.pushReplacementNamed(context, '/sysadmin/home');
-      }
     }
   }
 
-
+  void saveLogin({String u, String p, String r, bool l}) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("userName", u);
+    pref.setString("userPassword", p);
+    pref.setBool('isLogin', l);
+    pref.setString('route', r);
+  }
 
   @override
   void initState() {
@@ -174,7 +165,35 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          loginUser();
+                          // LoginResult.connectToApi(
+                          //   username: ((user).contains(' ') || (user).isEmpty)
+                          //       ? "a"
+                          //       : user,
+                          //   password: ((pass).contains(' ') || (pass).isEmpty)
+                          //       ? "a"
+                          //       : pass,
+                          // ).then((value) => loginResult = value);
+                          LoginResult.connectToApi(
+                            username: ((userController.text).contains(' ') ||
+                                    (userController.text).isEmpty)
+                                ? "a"
+                                : userController.text,
+                            password:
+                                ((passwordController.text).contains(' ') ||
+                                        (passwordController.text).isEmpty)
+                                    ? "a"
+                                    : passwordController.text,
+                          ).then((value) => loginResult = value);
+                          loginUser(
+                            user: userController.text,
+                            pass: passwordController.text,
+                          );
+                          print(loginResult.code);
+                          print(userController.text);
+                          print(passwordController.text);
+                          print(((passwordController.text).isEmpty)
+                              ? "null boss"
+                              : "Engga");
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 28),
