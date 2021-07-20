@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
-import 'package:momentum_admin_panel/model/product_model.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:momentum_admin_panel/view/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/view/widgets/warning.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 class WareHouseOnlineBody extends StatefulWidget {
+  // List<Product> productModel;
+  // WareHouseOnlineBody({Key key, this.productModel}) : super(key: key);
   @override
   _WareHouseOnlineBodyState createState() => _WareHouseOnlineBodyState();
 }
@@ -15,31 +18,30 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   int id;
   int add = 1;
   String scanId;
-  List<ProductModel> productSearch = [];
+  List<Product> productSearch = [];
   bool isStockLow = false, isReady, isModal = false;
   TextEditingController searchController = new TextEditingController();
-  List<ProductModel> model = productWarehouseaOnline;
-  ProductModel modal;
+  Product modal;
   void isLow() {
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].stock < 10) {
+    for (var i = 0; i < productModel.length; i++) {
+      if (productModel[i].stock < 10) {
         isStockLow = true;
       }
     }
   }
 
   void checkQr(int id) {
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].id == id) isReady = true;
-      if (model[i].id == id) modal = model[i];
+    for (var i = 0; i < productModel.length; i++) {
+      if (productModel[i].id == id) isReady = true;
+      if (productModel[i].id == id) modal = productModel[i];
       if (isReady == true) isModal = true;
-      if (isReady == true) i = model.length;
+      if (isReady == true) i = productModel.length;
     }
   }
 
-  Widget _createListViewBuilder(List<ProductModel> model) {
+  Widget _createListViewBuilder(List<Product> productModel) {
     return ListView.builder(
-      itemCount: model.length,
+      itemCount: productModel.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           child: Container(
@@ -61,7 +63,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    model[index].imgUrl,
+                    productModel[index].imgUrl,
                     height: 50,
                     width: 50,
                   ),
@@ -74,7 +76,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          model[index].name,
+                          productModel[index].name,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -85,13 +87,13 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                         Row(
                           children: [
                             Text(
-                              "Stok Barang : ${model[index].stock}",
+                              "Stok Barang : ${productModel[index].stock}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff696969),
                               ),
                             ),
-                            (model[index].stock < 10)
+                            (productModel[index].stock < 10)
                                 ? Container(
                                     margin: EdgeInsets.only(left: 13),
                                     child: Row(
@@ -126,7 +128,6 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
     );
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -159,11 +160,12 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                           onChanged: (String query) {
                             productSearch.clear();
                             String check = searchController.text.toLowerCase();
-                            for (var i = 0; i < model.length; i++) {
-                              String productArray = model[i].name.toLowerCase();
+                            for (var i = 0; i < productModel.length; i++) {
+                              String productArray =
+                                  productModel[i].name.toLowerCase();
                               if (productArray.contains(check)) {
                                 setState(() {
-                                  productSearch.add(model[i]);
+                                  productSearch.add(productModel[i]);
                                 });
                               }
                             }
@@ -210,9 +212,20 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                 height: 5,
               ),
               Expanded(
-                child: (searchController.text != "")
-                    ? _createListViewBuilder(productSearch)
-                    : _createListViewBuilder(model),
+                child: FutureBuilder(builder: (context, snapshot) {
+                  if (productModel.length == null) {
+                    return Container(
+                      child: Center(
+                        child: Text("Loading"),
+                      ),
+                    );
+                  } else {
+                    return _createListViewBuilder(productModel);
+                  }
+                }),
+                // child: (searchController.text != "")
+                //     ? _createListViewBuilder(productSearch)
+                //     : _createListViewBuilder(productModel),
               ),
             ],
           ),
@@ -256,7 +269,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height/4,
+                          height: MediaQuery.of(context).size.height / 4,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [

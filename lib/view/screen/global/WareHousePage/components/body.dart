@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:momentum_admin_panel/model/product_model.dart';
 import 'package:momentum_admin_panel/view/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/view/widgets/warning.dart';
@@ -16,31 +18,30 @@ class _WareHouseBodyState extends State<WareHouseBody> {
   int id;
   int add = 1;
   String scanId;
-  List<ProductModel> productSearch = [];
+  List<Product> productSearch = [];
   bool isStockLow = false, isReady, isModal = false;
   TextEditingController searchController = new TextEditingController();
-  List<ProductModel> model = productWarehouseaOffline;
-  ProductModel modal;
+  Product modal;
   void isLow() {
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].stock < 10) {
+    for (var i = 0; i < productModel.length; i++) {
+      if (productModel[i].stock < 10) {
         isStockLow = true;
       }
     }
   }
 
   void checkQr(int id) {
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].id == id) isReady = true;
-      if (model[i].id == id) modal = model[i];
+    for (var i = 0; i < productModel.length; i++) {
+      if (productModel[i].id == id) isReady = true;
+      if (productModel[i].id == id) modal = productModel[i];
       if (isReady == true) isModal = true;
-      if (isReady == true) i = model.length;
+      if (isReady == true) i = productModel.length;
     }
   }
 
-  Widget _createListViewBuilder(List<ProductModel> model) {
+  Widget _createListViewBuilder(List<Product> productModel) {
     return ListView.builder(
-      itemCount: model.length,
+      itemCount: productModel.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           child: Container(
@@ -62,7 +63,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    model[index].imgUrl,
+                    productModel[index].imgUrl,
                     height: 50,
                     width: 50,
                   ),
@@ -75,7 +76,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          model[index].name,
+                          productModel[index].name,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -86,13 +87,13 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                         Row(
                           children: [
                             Text(
-                              "Stok Barang : ${model[index].stock}",
+                              "Stok Barang : ${productModel[index].stock}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff696969),
                               ),
                             ),
-                            (model[index].stock < 10)
+                            (productModel[index].stock < 10)
                                 ? Container(
                                     margin: EdgeInsets.only(left: 13),
                                     child: Row(
@@ -127,7 +128,7 @@ class _WareHouseBodyState extends State<WareHouseBody> {
     );
   }
 
-  Widget _createModal(ProductModel modal) {
+  Widget _createModal(Product modal) {
     return Stack(
       children: [
         WareHouseBody(),
@@ -352,11 +353,11 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                           onChanged: (String query) {
                             productSearch.clear();
                             String check = searchController.text.toLowerCase();
-                            for (var i = 0; i < model.length; i++) {
-                              String productArray = model[i].name.toLowerCase();
+                            for (var i = 0; i < productModel.length; i++) {
+                              String productArray = productModel[i].name.toLowerCase();
                               if (productArray.contains(check)) {
                                 setState(() {
-                                  productSearch.add(model[i]);
+                                  productSearch.add(productModel[i]);
                                 });
                               }
                             }
@@ -403,9 +404,20 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 height: 5,
               ),
               Expanded(
-                child: (searchController.text != "")
-                    ? _createListViewBuilder(productSearch)
-                    : _createListViewBuilder(model),
+                child:FutureBuilder(builder: (context, snapshot) {
+                  if (productModel.length == null) {
+                    return Container(
+                      child: Center(
+                        child: Text("Loading"),
+                      ),
+                    );
+                  } else {
+                    return _createListViewBuilder(productModel);
+                  }
+                }),
+                //  (searchController.text != "")
+                //     ? _createListViewBuilder(productSearch)
+                //     : _createListViewBuilder(model),
               ),
             ],
           ),

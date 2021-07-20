@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isLogin = false;
   LoginResult loginResult;
 
-  void loginUser({String user, String pass}) async {
+  void loginUser({String user, String pass}){
     if (loginResult.code == 200) {
       if (loginResult.role == "admin") {
         Navigator.pushReplacementNamed(context, '/admin/home');

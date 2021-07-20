@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'constant/data.dart';
 
 class CheckPage extends StatefulWidget {
   @override
@@ -19,6 +22,7 @@ class _CheckPageState extends State<CheckPage> {
   @override
   void initState() {
     super.initState();
+    Product.connectToApi().then((value) => productModel = value);
     check();
   }
 
