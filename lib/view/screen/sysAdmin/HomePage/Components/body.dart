@@ -66,6 +66,17 @@ class HomePageSysAdminBody extends StatelessWidget {
                       ),
                     ),
                     Positioned(
+                      top: 20,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/logo/logo.png',
+                          width: 200,
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                    Positioned(
                       right: 23,
                       top: 20,
                       child: Container(
@@ -149,7 +160,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_data_reseller,
                       title: "Data Reseller",
                       data: "",
-                      route: '/global/ResellerData',
+                      route: '/sysadmin/ResellerData',
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_voucher_kupon,

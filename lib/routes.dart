@@ -15,6 +15,7 @@ import 'view/screen/global/myProduct/my_product_admin.dart';
 import 'view/screen/global/myProduct/my_product_screen.dart';
 import 'view/screen/global/productReview/product_review_screen.dart';
 import 'view/screen/global/resellerData/reseller_data.dart';
+import 'view/screen/global/resellerData/reseller_data_sysadmin.dart';
 import 'view/screen/global/status/status_product.dart';
 import 'view/screen/global/voucher/voucher_diskon.dart';
 import 'view/screen/login_page.dart';
@@ -32,7 +33,8 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/admin/order': (ctx) => DeliveryOrderPage(),
   '/global/addProduct': (ctx) => AddProductScreen(),
   '/global/productReview': (ctx) => ProductReviews(),
-  '/global/ResellerData': (ctx) => ResselerDataScreen(),
+  '/admin/ResellerData': (ctx) => ResselerDataScreen(),
+  '/sysadmin/ResellerData': (ctx) => ResellerDataSysadmin(),
   '/global/addVoucher': (ctx) => VoucherDiscountScreen(),
   '/global/statusProduct': (ctx) => StatusProduct(),
   '/admin/manageBanner': (ctx) => ManageBanner(),

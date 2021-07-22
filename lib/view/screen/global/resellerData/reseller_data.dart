@@ -15,7 +15,8 @@ class ResselerDataScreen extends StatefulWidget {
 class _ResselerDataScreenState extends State<ResselerDataScreen> {
   final TextEditingController searchController = new TextEditingController();
   List<ResellerModel> model = resellerMomentumModel;
-  Widget _createResselerData(ResellerModel data) {
+  
+  Widget createResselerData(ResellerModel data) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -243,7 +244,7 @@ class _ResselerDataScreenState extends State<ResselerDataScreen> {
                       ),
                     ),
                   )
-                : _createResselerData(model[index - 1]);
+                : createResselerData(model[index - 1]);
           },
         ),
       ),
