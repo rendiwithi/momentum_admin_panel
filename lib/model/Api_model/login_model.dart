@@ -6,9 +6,10 @@ class LoginResult {
   String message;
   String username;
   String role;
+  String token;
   int code;
 
-  LoginResult({this.message, this.code, this.username, this.role});
+  LoginResult({this.message, this.code, this.username, this.role, this.token});
 
   factory LoginResult.fromJson(Map<String, dynamic> object) {
     return LoginResult(
@@ -16,6 +17,7 @@ class LoginResult {
       code: object["code"],
       username: (object["code"] == 200) ? (object["data"])["username"] : "",
       role: (object["code"]==200 && (object["data"])["type"] == 5) ? "sysadmin" : "admin",
+      token: (object["code"] == 200) ? object["token"] : "",
     );
   }
 
@@ -32,3 +34,4 @@ class LoginResult {
     return LoginResult.fromJson(jsonObj);
   }
 }
+LoginResult userLogin;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
-import 'package:momentum_admin_panel/model/product_model.dart';
 import 'package:momentum_admin_panel/view/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/view/widgets/warning.dart';
 import 'package:permission_handler/permission_handler.dart';

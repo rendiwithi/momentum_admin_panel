@@ -192,8 +192,10 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                             isReady = false;
                             add = 1;
                             scanId = await scanner.scan();
-                            id = int.parse(scanId);
-                            checkQr(id);
+                            if (scanId != null) {
+                              id = int.parse(scanId);
+                              checkQr(id);
+                            }
                             setState(() {});
                           }
                         },

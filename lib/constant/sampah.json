@@ -1,0 +1,36 @@
+{
+    "code": 200,
+    "message": "this is it!!",
+    "data": [
+        {
+            "id": 13,
+            "code": "INV00013",     
+            "details": [
+                {
+                    "id": 11,
+                    "product_id": 2
+                },
+                {
+                    "id": 14,
+                    "product_id": 1
+                }
+            ],
+            "grand_total": 918000
+        },
+        {
+            "id": 13,
+            "code": "INV00013",
+            "details": [
+                {
+                    "id": 11,
+                    "product_id": 2
+                },
+                {
+                    "id": 14,
+                    "product_id": 1
+                }
+            ],
+            "grand_total": 918000
+        }
+    ]
+}

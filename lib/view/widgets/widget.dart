@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
+import 'package:momentum_admin_panel/model/Transaction_model/transaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateWearhouse extends StatefulWidget {
   final IconData icon;
   final String title;
   final String route;
-  const CreateWearhouse({Key key, this.icon, this.title, this.route})
-      : super(key: key);
+  const CreateWearhouse({
+    Key key,
+    this.icon,
+    this.title,
+    this.route,
+  }) : super(key: key);
 
   @override
   _CreateWearhouseState createState() => _CreateWearhouseState();
@@ -18,7 +24,8 @@ class _CreateWearhouseState extends State<CreateWearhouse> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await Product.connectToApi().then((value) => productModel = value);
         Navigator.pushNamed(context, widget.route);
       },
       child: Container(
@@ -60,11 +67,14 @@ class CreateDelivery extends StatefulWidget {
 }
 
 class _CreateDeliveryState extends State<CreateDelivery> {
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async{
         Navigator.pushNamed(context, '/admin/order');
+        // print(listData.length);
+        // print(listData[0].order[0].name);
       },
       child: Container(
         width: 144,

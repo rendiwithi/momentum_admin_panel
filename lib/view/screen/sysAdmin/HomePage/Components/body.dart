@@ -166,14 +166,14 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_voucher_kupon,
                       title: "Voucher Kupon",
                       data: "",
-                      route: '/global/addVoucher',
+                      route: '/sysadmin/addVoucher',
                       isNew: true,
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_kelola_banner,
                       title: "Kelola Banner",
                       data: "",
-                      route: '/admin/manageBanner',
+                      route: '/sysadmin/manageBanner',
                       isNew: true,
                     ),
                     CreateMenu(

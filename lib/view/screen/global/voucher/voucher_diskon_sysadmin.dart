@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/model/voucher_model.dart';
+import 'package:momentum_admin_panel/view/screen/global/voucher/voucherList.dart';
 
-import 'list_data.dart';
-
-class ResellerDataSysadmin extends StatefulWidget {
-  const ResellerDataSysadmin({key}) : super(key: key);
+class VoucherDiskonSysadmin extends StatefulWidget {
+  const VoucherDiskonSysadmin({key}) : super(key: key);
 
   @override
-  _ResellerDataSysadminState createState() => _ResellerDataSysadminState();
+  _VoucherDiskonSysadminState createState() => _VoucherDiskonSysadminState();
 }
 
-class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
-  TextEditingController searchController = new TextEditingController();
+class _VoucherDiskonSysadminState extends State<VoucherDiskonSysadmin> {
   int _selectedIndex = 0;
   Color colorL = Color(0xffE8B730), colorR;
-  
-  static List<Widget> _widgetOptions = <Widget>[
-    ListData(),
-    Text("ini menunggu persetujuan"),
-    // Text("ini menunggu asd"),
-  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,43 +26,10 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
     });
   }
 
-  Widget tabSearch() {
-    return Container(
-      height: 60,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      padding: EdgeInsets.only(
-        top: 10,
-        bottom: 10,
-        left: 15,
-        right: 15,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: cGrey,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: TextField(
-          controller: searchController,
-          style: TextStyle(color: Colors.black),
-          maxLines: 1,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Momentumicon.search,
-              color: Color(0xff696969),
-              size: 18,
-            ),
-            hintText: "Cari reseller",
-            hintStyle: TextStyle(
-              color: Color(0xff696969),
-              fontWeight: FontWeight.w400,
-            ),
-            border: InputBorder.none,
-          ),
-        ),
-      ),
-    );
-  }
+  static List<Widget> _widgetOptions = <Widget>[
+    VoucherList(data: voucher,),
+    Text("ini menunggu persetujuan"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +38,7 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
         centerTitle: true,
         backgroundColor: cBlack,
         title: Text(
-          "Data Reseller",
+          "Voucher Kupon",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -88,7 +48,6 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
       ),
       body: Column(
         children: [
-          tabSearch(),
           Container(
             height: 50,
             child: BottomNavigationBar(
@@ -101,7 +60,7 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: 'Reseller',
+                  label: 'Voucher Kupon',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.business),

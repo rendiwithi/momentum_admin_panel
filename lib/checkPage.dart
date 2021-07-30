@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'constant/data.dart';
+import 'dart:io';
+import 'model/Api_model/login_model.dart';
 
 class CheckPage extends StatefulWidget {
   @override
@@ -10,19 +10,43 @@ class CheckPage extends StatefulWidget {
 }
 
 class _CheckPageState extends State<CheckPage> {
+  bool iscConnected;
   void check() async {
+    print('Connected');
     SharedPreferences pref = await SharedPreferences.getInstance();
-    if (pref.getBool('isLogin') != true) {
-      pref.setString('route', '/login');
+    var userName = pref.getString("userName");
+    var userPassword = pref.getString("userPassword");
+
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        await LoginResult.connectToApi(
+          username: (userName == null || userName.isEmpty) ? " " : userName,
+          password: (userPassword == null || userPassword.isEmpty)
+              ? " "
+              : userPassword,
+        ).then((value) => userLogin = value);
+
+        if (userLogin.code == 200 || userLogin.code == null) {
+          if (userLogin.role == "admin") {
+            Navigator.pushReplacementNamed(context, '/admin/home');
+          } else if (userLogin.role == "sysadmin") {
+            Navigator.pushReplacementNamed(context, '/sysadmin/home');
+          }
+        } else {
+          if (pref.getBool('isLogin') != null || pref.getBool('isLogin')) {
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+        }
+      }
+    } on SocketException catch (_) {
+      Navigator.pushReplacementNamed(context, '/connectionproblem');
     }
-    Navigator.pushReplacementNamed(context, pref.getString('route'));
-    print(pref.getBool('isLogin').toString());
   }
 
   @override
   void initState() {
     super.initState();
-    Product.connectToApi().then((value) => productModel = value);
     check();
   }
 

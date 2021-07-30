@@ -15,20 +15,40 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = new TextEditingController();
   UserModel model;
   bool isLogin = false;
-  LoginResult loginResult;
 
-  void loginUser({String user, String pass}){
-    if (loginResult.code == 200) {
-      if (loginResult.role == "admin") {
+  void loginUser() async {
+    await LoginResult.connectToApi(
+      username:
+          ((userController.text).contains(' ') || (userController.text).isEmpty)
+              ? "a"
+              : userController.text,
+      password: ((passwordController.text).contains(' ') ||
+              (passwordController.text).isEmpty)
+          ? "a"
+          : passwordController.text,
+    ).then((value) => userLogin = value);
+
+    if (userLogin.code == 200) {
+      if (userLogin.role == "admin") {
         Navigator.pushReplacementNamed(context, '/admin/home');
-        saveLogin(u: user, p: pass, l: true, r: '/admin/home');
-      } else if (loginResult.role == "sysadmin") {
+        saveLogin(
+          u: userController.text,
+          p: passwordController.text,
+          l: true,
+          r: '/admin/home',
+        );
+      } else if (userLogin.role == "sysadmin") {
         Navigator.pushReplacementNamed(context, '/sysadmin/home');
-        saveLogin(u: user, p: pass, l: true, r: '/sysadmin/home');
+        saveLogin(
+          u: userController.text,
+          p: passwordController.text,
+          l: true,
+          r: '/sysadmin/home',
+        );
       }
     } else {
       Fluttertoast.showToast(
-        msg: loginResult.message,
+        msg: userLogin.message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
@@ -173,22 +193,8 @@ class _LoginPageState extends State<LoginPage> {
                           //       ? "a"
                           //       : pass,
                           // ).then((value) => loginResult = value);
-                          LoginResult.connectToApi(
-                            username: ((userController.text).contains(' ') ||
-                                    (userController.text).isEmpty)
-                                ? "a"
-                                : userController.text,
-                            password:
-                                ((passwordController.text).contains(' ') ||
-                                        (passwordController.text).isEmpty)
-                                    ? "a"
-                                    : passwordController.text,
-                          ).then((value) => loginResult = value);
-                          loginUser(
-                            user: userController.text,
-                            pass: passwordController.text,
-                          );
-                          print(loginResult.code);
+                          loginUser();
+                          print(userLogin.code);
                           print(userController.text);
                           print(passwordController.text);
                           print(((passwordController.text).isEmpty)
