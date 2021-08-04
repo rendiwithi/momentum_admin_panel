@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:momentum_admin_panel/model/AddProduct_model/AddProduct_model.dart';
+import 'package:momentum_admin_panel/model/AddProduct_model/addImage_model.dart';
 
 class AddProductBody extends StatefulWidget {
   @override
@@ -12,14 +14,80 @@ class AddProductBody extends StatefulWidget {
 }
 
 class _AddProductBodyState extends State<AddProductBody> {
-  TextEditingController nameController,
-      brandController,
-      priceController,
-      stockController,
-      descController,
-      heightController;
+  TextEditingController nameController = new TextEditingController(),
+      brandController = new TextEditingController(),
+      priceController = new TextEditingController(),
+      stockController = new TextEditingController(),
+      descController = new TextEditingController(),
+      weightController = new TextEditingController();
   File img1, img2, img3, img4;
+  AddProduct newProduct;
+  AddImage imageStatus;
   final picker = ImagePicker();
+  void sendNewProduct() async {
+    bool name = nameController.text.isEmpty;
+    bool brand = brandController.text.isEmpty;
+    bool stock = stockController.text.isEmpty;
+    bool desc = descController.text.isEmpty;
+    bool price = priceController.text.isEmpty;
+    bool weight = weightController.text.isEmpty;
+    bool image1 = img1 == null;
+    bool image2 = img2 == null;
+    bool image3 = img3 == null;
+    bool image4 = img4 == null;
+    print("=================");
+    if (name || brand || stock || desc || price || weight || image1) {
+      Fluttertoast.showToast(msg: "Isi Data Yang ada");
+    } else {
+      print("object");
+      await AddProduct.connectToApi(
+              name: nameController.text,
+              desc: descController.text,
+              idBrand: "1",
+              idCategory: "1",
+              price: priceController.text,
+              weight: weightController.text)
+          .then((value) => newProduct = value);
+      print(newProduct.id);
+      print("=================1");
+
+      if (image1 == false && newProduct.code == 200) {
+        print("================= SAVE");
+        await AddImage.connectToApi(
+          id: newProduct.id,
+          imgProduct: img1,
+        );
+        Fluttertoast.showToast(msg: "asd");
+      }
+      print("================= IMAGE 1");
+      if (image2 == false && newProduct.code == 200) {
+        print("================= SAVE");
+        await AddImage.connectToApi(
+          id: newProduct.id,
+          imgProduct: img2,
+        );
+      }
+      print("================= IMAGE 2");
+      if (image3 == false && newProduct.code == 200) {
+        print("================= SAVE");
+        await AddImage.connectToApi(
+          id: newProduct.id,
+          imgProduct: img3,
+        );
+      }
+      print("================= IMAGE 3");
+
+      if (image4 == false && newProduct.code == 200) {
+        print("================= SAVE");
+        await AddImage.connectToApi(
+          id: newProduct.id,
+          imgProduct: img4,
+        );
+      }
+      print("================= IMAGE 4");
+      Navigator.pop(context);
+    }
+  }
 
   Widget _createInputField(
       String title, String hint, TextEditingController controller) {
@@ -289,6 +357,7 @@ class _AddProductBodyState extends State<AddProductBody> {
   getImage(int index) async {
     if (index == 0) {
       final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      Fluttertoast.showToast(msg: pickedFile.toString());
       setState(
         () {
           if (pickedFile != null) {
@@ -343,6 +412,7 @@ class _AddProductBodyState extends State<AddProductBody> {
           () {
             if (pickedFile != null) {
               img4 = File(pickedFile.path);
+              // Fluttertoast.showToast(msg: PickedFile());
             } else {
               print('No image selected.');
             }
@@ -389,7 +459,56 @@ class _AddProductBodyState extends State<AddProductBody> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 15),
-                  child: _createInputField("Berat", "Berat", heightController),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "Berat",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 50,
+                        padding: EdgeInsets.only(left: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Color(0xffE5E5E5),
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            TextField(
+                              style: TextStyle(color: Colors.black),
+                              controller: weightController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Berat",
+                                hintStyle: TextStyle(
+                                  color: Color(0xff696969),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                color: cGrey,
+                                child: Center(child: Text("Gram")),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -465,20 +584,26 @@ class _AddProductBodyState extends State<AddProductBody> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(15),
-            color: Colors.white,
+          GestureDetector(
+            onTap: () {
+              // Fluttertoast.showToast(msg: "Tambahkan Produk");
+              sendNewProduct();
+            },
             child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                  color: cBlack, borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: Text(
-                  "Tambahkan Produk",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+              padding: EdgeInsets.all(15),
+              color: Colors.white,
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    color: cBlack, borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Tambahkan Produk",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
