@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,18 +34,16 @@ class _LoginPageState extends State<LoginPage> {
       if (userLogin.role == "admin") {
         Navigator.pushReplacementNamed(context, '/admin/home');
         saveLogin(
-          u: userController.text,
-          p: passwordController.text,
           l: true,
           r: '/admin/home',
+          t: userLogin.token,
         );
       } else if (userLogin.role == "sysadmin") {
         Navigator.pushReplacementNamed(context, '/sysadmin/home');
         saveLogin(
-          u: userController.text,
-          p: passwordController.text,
           l: true,
           r: '/sysadmin/home',
+          t: userLogin.token,
         );
       }
     } else {
@@ -55,12 +55,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void saveLogin({String u, String p, String r, bool l}) async {
+  void saveLogin({String t, String r, bool l}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString("userName", u);
-    pref.setString("userPassword", p);
     pref.setBool('isLogin', l);
     pref.setString('route', r);
+    pref.setString('token', t);
   }
 
   @override

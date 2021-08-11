@@ -8,8 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 class WareHouseOnlineBody extends StatefulWidget {
-  // List<Product> productModel;
-  // WareHouseOnlineBody({Key key, this.productModel}) : super(key: key);
+  // List<Product> productModelOnline;
+  // WareHouseOnlineBody({Key key, this.productModelOnline}) : super(key: key);
   @override
   _WareHouseOnlineBodyState createState() => _WareHouseOnlineBodyState();
 }
@@ -22,26 +22,22 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   bool isStockLow = false, isReady, isModal = false;
   TextEditingController searchController = new TextEditingController();
   Product modal;
-  void isLow() {
-    for (var i = 0; i < productModel.length; i++) {
-      if (productModel[i].stock < 10) {
-        isStockLow = true;
-      }
-    }
-  }
 
   void checkQr(int id) {
-    for (var i = 0; i < productModel.length; i++) {
-      if (productModel[i].id == id) isReady = true;
-      if (productModel[i].id == id) modal = productModel[i];
+    for (var i = 0; i < productModelOnline.length; i++) {
+      if (productModelOnline[i].id == id) isReady = true;
+      if (productModelOnline[i].id == id) modal = productModelOnline[i];
       if (isReady == true) isModal = true;
-      if (isReady == true) i = productModel.length;
+      if (isReady == true) i = productModelOnline.length;
     }
   }
-
-  Widget _createListViewBuilder(List<Product> productModel) {
+  getData() async {
+    await Product.connectToApi(status: "active")
+        .then((value) => productModelOnline = value);
+  }
+  Widget _createListViewBuilder(List<Product> productModelOnline) {
     return ListView.builder(
-      itemCount: productModel.length,
+      itemCount: productModelOnline.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           child: Container(
@@ -63,7 +59,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    productModel[index].imgUrl,
+                    productModelOnline[index].imgUrl,
                     height: 50,
                     width: 50,
                   ),
@@ -76,7 +72,7 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          productModel[index].name,
+                          productModelOnline[index].name,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -87,13 +83,13 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                         Row(
                           children: [
                             Text(
-                              "Stok Barang : ${productModel[index].stock}",
+                              "Stok Barang : ${productModelOnline[index].stock}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff696969),
                               ),
                             ),
-                            (productModel[index].stock < 10)
+                            (productModelOnline[index].stock < 20)
                                 ? Container(
                                     margin: EdgeInsets.only(left: 13),
                                     child: Row(
@@ -129,12 +125,6 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    isLow();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Stack(
@@ -160,12 +150,12 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                           onChanged: (String query) {
                             productSearch.clear();
                             String check = searchController.text.toLowerCase();
-                            for (var i = 0; i < productModel.length; i++) {
+                            for (var i = 0; i < productModelOnline.length; i++) {
                               String productArray =
-                                  productModel[i].name.toLowerCase();
+                                  productModelOnline[i].name.toLowerCase();
                               if (productArray.contains(check)) {
                                 setState(() {
-                                  productSearch.add(productModel[i]);
+                                  productSearch.add(productModelOnline[i]);
                                 });
                               }
                             }
@@ -214,20 +204,22 @@ class _WareHouseOnlineBodyState extends State<WareHouseOnlineBody> {
                 height: 5,
               ),
               Expanded(
-                child: FutureBuilder(builder: (context, snapshot) {
-                  if (productModel.length == null) {
+                child: FutureBuilder(
+                  future: getData(),
+                  builder: (context, snapshot) {
+                  if (productModelOnline == null || productModelOnline.isEmpty) {
                     return Container(
                       child: Center(
                         child: Text("Loading"),
                       ),
                     );
                   } else {
-                    return _createListViewBuilder(productModel);
+                    return _createListViewBuilder(productModelOnline);
                   }
                 }),
                 // child: (searchController.text != "")
                 //     ? _createListViewBuilder(productSearch)
-                //     : _createListViewBuilder(productModel),
+                //     : _createListViewBuilder(productModelOnline),
               ),
             ],
           ),

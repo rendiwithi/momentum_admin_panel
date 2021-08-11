@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
-import 'package:momentum_admin_panel/model/order_model.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/Transaction_model/transaction.dart';
 
 class AddedSalesPage extends StatefulWidget {
   final int id;
@@ -16,7 +17,7 @@ class AddedSalesPage extends StatefulWidget {
 class _AddedSalesPageState extends State<AddedSalesPage> {
   @override
   Widget build(BuildContext context) {
-    OrderModel model = deliveryAdmin[widget.id];
+  Transaction modelsales = listData[widget.id];
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -41,7 +42,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                   ),
                   Center(
                     child: Text(
-                      model.serialCode,
+                      modelsales.code,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -80,7 +81,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                       // color: Colors.red,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: model.order.length,
+                          itemCount: modelsales.order.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Column(
                               children: [
@@ -91,7 +92,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
-                                          model.order[index].imgUrl,
+                                          modelsales.order[index].imgUrl,
                                           height: 50,
                                           width: 50,
                                         ),
@@ -107,7 +108,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                model.order[index].name,
+                                                modelsales.order[index].name,
                                                 overflow: TextOverflow.visible,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -116,7 +117,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                                 ),
                                               ),
                                               Text(
-                                                "Jumlah : ${model.order[index].stock} pcs",
+                                                "Jumlah : ${modelsales.order[index].total} pcs",
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Color(0xff696969),
@@ -131,7 +132,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                         child: Container(
                                           height: 25,
                                           width: 25,
-                                          child: (model.order[index].isSold)
+                                          // child: (model.order[index].isSold)
+                                          child: (false)
                                               ? Icon(
                                                   Momentumicon.qr_check,
                                                 )
@@ -161,7 +163,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                     ],
                                   ),
                                 ),
-                                (model.order[index].notes.length != 0)
+                                // (model.order[index].notes.length != 0)
+                                (false)
                                     ? Container(
                                         padding: EdgeInsets.all(10),
                                         child: Column(
@@ -177,7 +180,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                               ),
                                             ),
                                             Text(
-                                              model.order[index].notes,
+                                              // model.order[index].notes,
+                                              "HEHE",
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
                                                 color: Color(0xff696969),
@@ -226,7 +230,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
-                              model.customer,
+                              modelsales.nameCustomer,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -236,11 +240,11 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: Text(model.address),
+                            child: Text(modelsales.addressCustomer),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: Text(model.phone),
+                            child: Text(modelsales.phoneCustomer),
                           ),
                         ],
                       ),
@@ -277,7 +281,7 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15, bottom: 15),
                             child: Text(
-                              "JNE - Reguler (2-5 hari)",
+                              modelsales.shipment,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -285,7 +289,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                               ),
                             ),
                           ),
-                          (model.isDelivered)
+                          // (model.isDelivered)
+                          (false)
                               ? Padding(
                                   padding:
                                       const EdgeInsets.only(top: 8, bottom: 8),
@@ -365,7 +370,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: (model.isDelivered)?Icon(
+                                // child: (model.isDelivered)?Icon(
+                                child: (true)?Icon(
                                   Momentumicon.bookmark,
                                   color: Color(0xffE8B730),
                                 ):Icon(
@@ -374,7 +380,8 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                                 ),
                               ),
                               Text(
-                                (model.isDelivered)?"Cetak Shipping Label":"Tambahkan Resi",
+                                // (model.isDelivered)?"Cetak Shipping Label":"Tambahkan Resi",
+                                (true)?"Cetak Shipping Label":"Tambahkan Resi",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),

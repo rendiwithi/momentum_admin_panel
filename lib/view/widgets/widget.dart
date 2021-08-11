@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
-import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +23,6 @@ class _CreateWearhouseState extends State<CreateWearhouse> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await Product.connectToApi().then((value) => productModel = value);
         Navigator.pushNamed(context, widget.route);
       },
       child: Container(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Api_model/login_model.dart';
 
 class AddProduct {
@@ -27,7 +28,7 @@ class AddProduct {
     String apiUrl = "http://www.momentumlifestyle.me:3015/product/update";
     var apiresult = await http.post(Uri.parse(apiUrl), body: {
       "key": "2f7fe98eaf8f800c267582fd53b6584f",
-      "token": userLogin.token,
+      "token": tokenUser,
       "name": name,
       "description": desc,
       "category_id": idCategory,

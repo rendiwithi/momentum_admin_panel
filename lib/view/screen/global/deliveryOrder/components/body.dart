@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Transaction_model/transaction.dart';
+
+import '../added_sales_page.dart';
 
 class DeliveryOrderBody extends StatefulWidget {
   @override
@@ -12,7 +15,7 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
   getData()async{
         await Transaction.connectToApi().then((value) => listData = value);
   }
-  Widget deliveryCard({Transaction transaction}) {
+  Widget deliveryCard({Transaction transaction, int id}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -28,12 +31,12 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
         children: [
           GestureDetector(
             onTap: () {
-              // print("produk");
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => AddedSalesPage(id: order.id)),
-              // );
+              print("produk");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddedSalesPage(id: id)),
+              );
             },
             child: Column(
               children: [
@@ -271,7 +274,7 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
                 shrinkWrap: true,
                 itemCount: listData.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return deliveryCard(transaction: listData[index]);
+                  return deliveryCard(transaction: listData[index], id: index);
                 },
               );
             }

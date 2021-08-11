@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/productReview.dart';
+import 'package:momentum_admin_panel/model/review_model/review.dart';
+import 'package:momentum_admin_panel/model/review_model/user_review.dart';
 import 'package:momentum_admin_panel/view/screen/global/productReview/replyReview/reply_review.dart';
 
 class ProductReviews extends StatefulWidget {
@@ -10,6 +13,10 @@ class ProductReviews extends StatefulWidget {
 }
 
 class _ProductReviewsState extends State<ProductReviews> {
+  getData() async {
+    await Review.connectToApi().then((value) => reviewProduct = value);
+  }
+
   Widget _createStar(int rating) {
     return Row(
       children: [
@@ -43,10 +50,6 @@ class _ProductReviewsState extends State<ProductReviews> {
   }
 
   Widget _heading() {
-    int average = 0;
-    for (var i = 0; i < productReview.length; i++) {
-      average = average + productReview[i].rating;
-    }
     return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(bottom: 1, top: 10),
@@ -68,12 +71,12 @@ class _ProductReviewsState extends State<ProductReviews> {
               children: [
                 Container(
                   margin: EdgeInsets.only(right: 10),
-                  child: _createStar(average),
+                  child: _createStar(reviewProduct.totalRating),
                 ),
                 Container(
                   margin: EdgeInsets.only(right: 5),
                   child: Text(
-                    "4.0 dari 5",
+                    "${reviewProduct.totalRating} dari 5",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -82,7 +85,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                 ),
                 Container(
                   child: Text(
-                    "(${(productReview.length)} ulasan)",
+                    "(${reviewProduct.totalComments} ulasan)",
                     style: TextStyle(
                       fontSize: 10,
                       color: Color(0xff6969696),
@@ -98,7 +101,7 @@ class _ProductReviewsState extends State<ProductReviews> {
     );
   }
 
-  Widget _reviewChat(ProductReviewModel review) {
+  Widget _reviewChat(UserReview review) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(15),
@@ -113,7 +116,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    review.user,
+                    review.username ,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -123,7 +126,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Text(
-                      review.time,
+                      "review.time",
                       style: TextStyle(
                         fontSize: 10,
                         color: Color(0xff666666),
@@ -132,33 +135,33 @@ class _ProductReviewsState extends State<ProductReviews> {
                   ),
                 ],
               ),
-              _createStar(review.rating),
+              _createStar(review.rate),
             ],
           ),
           Container(
             margin: EdgeInsets.only(top: 15),
             child: Text(
-              review.review,
+              review.comment,
               style: TextStyle(
                 fontSize: 12,
                 color: Color(0xff666666),
               ),
             ),
           ),
-          (review.reviewReply == "")
+          (true)
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ReplyReviewScreen(
-                              model: review,
-                            ),
-                          ),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ReplyReviewScreen(
+                        //       model: review,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 10),
@@ -192,7 +195,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        review.userReply,
+                        "review.userReply",
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -202,7 +205,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Text(
-                          review.timeReply,
+                          "review.timeReply",
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
@@ -213,7 +216,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
-                          review.reviewReply,
+                          "review.reviewReply",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -233,30 +236,44 @@ class _ProductReviewsState extends State<ProductReviews> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Ulasan Produk",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
+          appBar: AppBar(
+            title: Text(
+              "Ulasan Produk",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ),
+            centerTitle: true,
+            backgroundColor: cBlack,
+            elevation: 0,
           ),
-          centerTitle: true,
-          backgroundColor: cBlack,
-          elevation: 0,
-        ),
-        body: ListView.builder(
-          itemCount: 1 + productReview.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              child: (index == 0)
-                  ? _heading()
-                  : _reviewChat(productReview[index - 1]),
-            );
-          },
-        ),
-      ),
+          body: FutureBuilder(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (reviewProduct == null ||
+                  reviewProduct.userReview == null ||
+                  reviewProduct.userReview.isEmpty) {
+                return Container(
+                  child: Center(
+                    child: Text("Loading"),
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  itemCount: 1 + reviewProduct.userReview.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: (index == 0)
+                          ? _heading()
+                          : _reviewChat(reviewProduct.userReview[index - 1]),
+                    );
+                  },
+                );
+              }
+            },
+          )),
     );
   }
 }

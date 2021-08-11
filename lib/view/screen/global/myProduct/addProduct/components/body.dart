@@ -15,18 +15,34 @@ class AddProductBody extends StatefulWidget {
 
 class _AddProductBodyState extends State<AddProductBody> {
   TextEditingController nameController = new TextEditingController(),
-      brandController = new TextEditingController(),
       priceController = new TextEditingController(),
       stockController = new TextEditingController(),
       descController = new TextEditingController(),
       weightController = new TextEditingController();
+
+  // String brand = "";
+  int brandId = 0;
+  int categoryId = 0;
+  String brandItem = 'Pilih Brand';
+  String categoryItem = "Pilih Category";
+  List<String> listBrand = [
+    'Pilih Brand',
+    'Momentum',
+  ];
+  List<String> listCategory = [
+    "Pilih Category",
+    "Minuman Kesahatan",
+  ];
+  String dropdownValue = 'One';
+  List<String> number = ['One', 'Two', 'Free', 'Four'];
   File img1, img2, img3, img4;
   AddProduct newProduct;
   AddImage imageStatus;
   final picker = ImagePicker();
   void sendNewProduct() async {
     bool name = nameController.text.isEmpty;
-    bool brand = brandController.text.isEmpty;
+    bool brand = brandId == 0;
+    bool category = categoryId == 0;
     bool stock = stockController.text.isEmpty;
     bool desc = descController.text.isEmpty;
     bool price = priceController.text.isEmpty;
@@ -36,15 +52,24 @@ class _AddProductBodyState extends State<AddProductBody> {
     bool image3 = img3 == null;
     bool image4 = img4 == null;
     print("=================");
-    if (name || brand || stock || desc || price || weight || image1) {
+    if (name ||
+        brand ||
+        stock ||
+        desc ||
+        price ||
+        weight ||
+        image1 ||
+        category) {
       Fluttertoast.showToast(msg: "Isi Data Yang ada");
+      print(category);
+      print(brand);
     } else {
       print("object");
       await AddProduct.connectToApi(
               name: nameController.text,
               desc: descController.text,
-              idBrand: "1",
-              idCategory: "1",
+              idBrand: brandId.toString(),
+              idCategory: categoryId.toString(),
               price: priceController.text,
               weight: weightController.text)
           .then((value) => newProduct = value);
@@ -87,6 +112,88 @@ class _AddProductBodyState extends State<AddProductBody> {
       print("================= IMAGE 4");
       Navigator.pop(context);
     }
+  }
+
+  Widget dropDownCreateBrand() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(
+            "Merek",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ),DropdownButton<String>(
+          value: brandItem,
+          isExpanded: true,
+          elevation: 16,
+          underline: Container(
+            height: 2,
+            color: cGrey,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              brandItem = newValue;
+            });
+          },
+          items: listBrand.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+              onTap: () {
+                brandId = listBrand.indexOf(value);
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget dropDownCreateCategory() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(
+            "Category",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ),DropdownButton<String>(
+          value: categoryItem,
+          isExpanded: true,
+          elevation: 16,
+          underline: Container(
+            height: 2,
+            color: cGrey
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              categoryItem = newValue;
+            });
+          },
+          items: listCategory.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+              onTap: () {
+                categoryId = listCategory.indexOf(value);
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 
   Widget _createInputField(
@@ -446,8 +553,11 @@ class _AddProductBodyState extends State<AddProductBody> {
                       "Nama Produk", "Masukkan nama produk", nameController),
                 ),
                 Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: dropDownCreateBrand()),
+                Container(
                   padding: EdgeInsets.only(top: 15),
-                  child: _createInputField("Merek", "Merek", brandController),
+                  child: dropDownCreateCategory(),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 15),
@@ -487,6 +597,7 @@ class _AddProductBodyState extends State<AddProductBody> {
                             TextField(
                               style: TextStyle(color: Colors.black),
                               controller: weightController,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Berat",

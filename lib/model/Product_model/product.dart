@@ -10,6 +10,8 @@ class Product {
   int id;
   int stock;
   int code;
+  int price;
+
 
   Product({
     this.id,
@@ -19,6 +21,7 @@ class Product {
     this.isSold,
     this.imgUrl,
     this.code,
+    this.price,
   });
 
   factory Product.fromJson(Map<String, dynamic> object) {
@@ -26,23 +29,23 @@ class Product {
       id: object["id"],
       name: object["name"],
       stock: object["stock"],
+      price: object["default_price_sell"],
       imgUrl: object["pictures"][0]["link"],
     );
   }
 
-  static Future<List<Product>> connectToApi()async{
+  static Future<List<Product>> connectToApi({String status}) async {
     String key = "2f7fe98eaf8f800c267582fd53b6584f";
-    String productUrl = "http://www.momentumlifestyle.me:3015/product/list"; 
-    var apiResult = await http.post(Uri.parse(productUrl), body: {
-      "key" : key
-    });
+    String productUrl = "http://www.momentumlifestyle.me:3015/product/list";
+    var apiResult = await http
+        .post(Uri.parse(productUrl), body: {"key": key, "status": status});
     var jsonObject = json.decode(apiResult.body);
     List<dynamic> listProduct = (jsonObject as Map<String, dynamic>)['data'];
 
-    List<Product> products= [];
-    for (var i = 0; i < listProduct.length; i++) 
+    List<Product> products = [];
+    for (var i = 0; i < listProduct.length; i++)
       products.add(Product.fromJson(listProduct[i]));
-    
+
     return products;
   }
 }
