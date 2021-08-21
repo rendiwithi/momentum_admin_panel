@@ -8,6 +8,8 @@ class Product {
   String notes;
   bool isSold;
   int id;
+  int idBrand;
+  int idCategory;
   int stock;
   int code;
   int price;
@@ -15,6 +17,8 @@ class Product {
 
   Product({
     this.id,
+    this.idBrand,
+    this.idCategory,
     this.stock,
     this.notes,
     this.name,
@@ -27,6 +31,8 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> object) {
     return Product(
       id: object["id"],
+      idBrand: object["brand"]["id"],
+      idCategory: object["category"]["id"],
       name: object["name"],
       stock: object["stock"],
       price: object["default_price_sell"],

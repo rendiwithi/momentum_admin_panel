@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/view/screen/connection_problem.dart';
 import 'package:momentum_admin_panel/view/screen/global/WarehouseOnlinePage/warehouse_online_page.dart';
+import 'package:momentum_admin_panel/view/screen/global/manageStaff/manageStaff.dart';
 import 'package:momentum_admin_panel/view/screen/global/voucher/voucher_diskon_sysadmin.dart';
 
 import 'checkPage.dart';
@@ -30,13 +31,15 @@ final Map<String, Widget Function(BuildContext)> routes = {
   // '/': (ctx) => ConnectionProblem(),
   '/login': (ctx) => LoginPage(),
   // HOME
-  '/admin/home': (ctx) => HomePage(),
+  '/admin/home': (ctx) => HomePageSysAdmin(),
   '/sysadmin/home': (ctx) => HomePageSysAdmin(),
   // Stok Toko
   '/admin/onlinewarehouse': (ctx) => WareHouseOnlinePage(),
   '/admin/onlinewarehouse/history': (ctx) => HistoryOnlinePage(),
   '/admin/warehouse': (ctx) => WareHousePage(),
   '/admin/warehouse/history': (ctx) => HistoryPage(),
+  // Kelola Pegawai
+  '/sysadmin/manageStaff': (ctx) => ManageStaff(),
   // Random
   '/admin/order': (ctx) => DeliveryOrderPage(),
   '/global/addProduct': (ctx) => AddProductScreen(),

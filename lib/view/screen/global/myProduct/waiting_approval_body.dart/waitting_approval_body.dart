@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/AddProduct_model/AddProduct_model.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
 
 class WaittingApprovalBody extends StatefulWidget {
@@ -83,19 +84,25 @@ class _WaittingApprovalBodyState extends State<WaittingApprovalBody> {
                                   child: Icon(Icons.more_horiz),
                                   onSelected: (value) {
                                     print("value:$value");
-                                    actionPopUpItemSelected(value);
+                                    actionPopUpChangeStatus(
+                                      product: productModelPending[index],
+                                      value: value,
+                                    );
+                                    setState(() {
+                                      
+                                    });
                                   },
                                   itemBuilder: (context) {
                                     return <PopupMenuEntry>[
                                       PopupMenuItem(
                                         height: 35,
-                                        value: 'Agree',
+                                        value: 'active',
                                         child: Text('Setuju & Terbitkan'),
                                       ),
                                       PopupMenuDivider(),
                                       PopupMenuItem(
                                         height: 35,
-                                        value: 'Disagree',
+                                        value: 'pending',
                                         child: Text('Belum Disetujui'),
                                       )
                                     ];
@@ -163,15 +170,32 @@ class _WaittingApprovalBodyState extends State<WaittingApprovalBody> {
   }
 }
 
-void actionPopUpItemSelected(String value) {
+changeStatus({Product product, String status}) async {
+  await AddProduct.changeStatus(
+    name: product.name,
+    id: product.id.toString(),
+    idBrand: product.idBrand.toString(),
+    idCategory: product.idCategory.toString(),
+    price: product.price.toString(),
+    status: status,
+  );
+  // idBrand: brandId.toString(),
+  // idCategory: categoryId.toString(),
+  // price: priceController.text,
+  // weight: weightController.text)
+  // .then((value) => newProduct = value);
+}
+
+void actionPopUpChangeStatus({String value, Product product}) {
   String message;
-  if (value == 'Agree') {
-    message = 'You Agree';
-  } else if (value == 'Disagree') {
-    message = 'You Disagree';
+  if (value == 'active') {
+    message = 'active ${product.id}';
+  } else if (value == 'pending') {
+    message = 'pending  ${product.id}';
   } else {
     message = 'Not implemented';
   }
+  changeStatus(product: product, status: value);
   Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_SHORT,

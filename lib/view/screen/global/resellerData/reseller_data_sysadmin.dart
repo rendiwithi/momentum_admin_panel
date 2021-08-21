@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 
+import 'add_ reseller_page.dart/add_reseller_page.dart';
 import 'list_data.dart';
 
 class ResellerDataSysadmin extends StatefulWidget {
@@ -15,7 +16,7 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
   TextEditingController searchController = new TextEditingController();
   int _selectedIndex = 0;
   Color colorL = Color(0xffE8B730), colorR;
-  
+
   static List<Widget> _widgetOptions = <Widget>[
     ListData(),
     Text("ini menunggu persetujuan"),
@@ -84,6 +85,22 @@ class _ResellerDataSysadminState extends State<ResellerDataSysadmin> {
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddResellerPage(),
+            ),
+          );
+        },
+        elevation: 0,
+        backgroundColor: Color(0xffE8B730),
+        child: Icon(
+          Icons.add,
+          color: Color(0xff715815),
         ),
       ),
       body: Column(

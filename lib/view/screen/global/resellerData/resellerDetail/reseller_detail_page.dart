@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/model/Reseller_model/reseller_model.dart';
 import 'package:momentum_admin_panel/model/reseller_model.dart';
 
-class ResellerDetailPage extends StatelessWidget {
-  final ResellerModel data;
+class ResellerDetailPage extends StatefulWidget {
+  final Seller data;
 
-  const ResellerDetailPage({Key key, this.data}) : super(key: key);
+  const ResellerDetailPage({key, this.data}) : super(key: key);
+
+  @override
+  _ResellerDetailPageState createState() => _ResellerDetailPageState();
+}
+
+class _ResellerDetailPageState extends State<ResellerDetailPage> {
+  ResellerModel model = resellerMomentumModel[0];
   Widget _createProfile(String menu, String profile) {
     return Container(
       margin: EdgeInsets.only(top: 15),
@@ -121,7 +129,7 @@ class ResellerDetailPage extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      data.imgUrl,
+                                      (widget.data.imgUrl == "-")?model.imgUrl:widget.data.imgUrl,
                                     ),
                                     fit: BoxFit.fitWidth,
                                   ),
@@ -135,7 +143,7 @@ class ResellerDetailPage extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      data.name,
+                                      widget.data.name,
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
@@ -143,7 +151,7 @@ class ResellerDetailPage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      data.email,
+                                      widget.data.email,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
@@ -174,7 +182,7 @@ class ResellerDetailPage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "${(data.profuctSells)} Produk",
+                                      "${(widget.data.sale)} Produk",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -202,7 +210,7 @@ class ResellerDetailPage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "Rp.${(data.profit)} ,-",
+                                      "Rp.${(widget.data.income)} ,-",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -269,28 +277,33 @@ class ResellerDetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Voucher Potongan ${(data.discount)}%",
+                            "Voucher Potongan ${(widget.data.code)}%",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                data.codeDiscount,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 15),
-                                child: Icon(
-                                  Momentumicon.copy,
+                          GestureDetector(
+                            onTap: (){
+                              print("copy");
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.data.code,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
                                 ),
-                              )
-                            ],
+                                Container(
+                                  margin: EdgeInsets.only(left: 15),
+                                  child: Icon(
+                                    Momentumicon.copy,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -316,12 +329,12 @@ class ResellerDetailPage extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        _createProfile("Tanggal Dibuat", data.dateCreated),
-                        _createProfile("Nama Lengkap", data.name),
-                        _createProfile("Jenis Kelamin", data.gender),
-                        _createProfile("No Hp", data.phoneNumber),
-                        _createProfile("Email", data.email),
-                        _createProfile("No KTP", data.identityNumber),
+                        _createProfile("Tanggal Dibuat", widget.data.created),
+                        _createProfile("Nama Lengkap", widget.data.name),
+                        _createProfile("Jenis Kelamin", widget.data.gender),
+                        _createProfile("No Hp", widget.data.phone),
+                        _createProfile("Email", widget.data.email),
+                        _createProfile("No KTP", widget.data.identitiyNumber),
                       ],
                     ),
                   ),
@@ -338,10 +351,10 @@ class ResellerDetailPage extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        _createProfile("Nama Bank", data.bankName),
+                        _createProfile("Nama Bank", widget.data.bank),
                         _createProfile(
-                            "Nomor Rekening", data.bankAccountNumber),
-                        _createProfile("Nama Pemilik", data.bankUser),
+                            "Nomor Rekening", widget.data.bankNo),
+                        _createProfile("Nama Pemilik", widget.data.bankUser),
                       ],
                     ),
                   ),
@@ -358,9 +371,9 @@ class ResellerDetailPage extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        _createSocialMedia("instagram", data.instagram),
-                        _createSocialMedia("youtube", data.youtube),
-                        _createSocialMedia("tiktok", data.tiktok),
+                        _createSocialMedia("instagram", widget.data.instagram),
+                        _createSocialMedia("youtube", widget.data.youtube),
+                        _createSocialMedia("tiktok", widget.data.tiktok),
                       ],
                     ),
                   ),

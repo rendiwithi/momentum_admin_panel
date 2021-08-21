@@ -4,7 +4,7 @@ import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/routes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp()); 
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/', 
+      initialRoute: '/',
       routes: routes,
     );
   }

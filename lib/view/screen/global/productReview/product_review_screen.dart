@@ -5,7 +5,6 @@ import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/productReview.dart';
 import 'package:momentum_admin_panel/model/review_model/review.dart';
 import 'package:momentum_admin_panel/model/review_model/user_review.dart';
-import 'package:momentum_admin_panel/view/screen/global/productReview/replyReview/reply_review.dart';
 
 class ProductReviews extends StatefulWidget {
   @override

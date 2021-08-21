@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Api_model/login_model.dart';
 import 'package:momentum_admin_panel/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,9 @@ class _LoginPageState extends State<LoginPage> {
   UserModel model;
   bool isLogin = false;
 
-  void loginUser() async {
+  loginUser() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
     await LoginResult.connectToApi(
       username:
           ((userController.text).contains(' ') || (userController.text).isEmpty)
@@ -33,18 +36,18 @@ class _LoginPageState extends State<LoginPage> {
     if (userLogin.code == 200) {
       if (userLogin.role == "admin") {
         Navigator.pushReplacementNamed(context, '/admin/home');
-        saveLogin(
-          l: true,
-          r: '/admin/home',
-          t: userLogin.token,
-        );
+        await pref.setBool('isLogin', true);
+        await pref.setString('route', '/admin/home');
+        await pref.setString('token', userLogin.token);
+        tokenUser = userLogin.token;
+
       } else if (userLogin.role == "sysadmin") {
         Navigator.pushReplacementNamed(context, '/sysadmin/home');
-        saveLogin(
-          l: true,
-          r: '/sysadmin/home',
-          t: userLogin.token,
-        );
+        await pref.setBool('isLogin', true);
+        await pref.setString('route', '/sysadmin/home');
+        await pref.setString('token', userLogin.token);
+        tokenUser = userLogin.token;
+
       }
     } else {
       Fluttertoast.showToast(
@@ -53,13 +56,6 @@ class _LoginPageState extends State<LoginPage> {
         gravity: ToastGravity.BOTTOM,
       );
     }
-  }
-
-  void saveLogin({String t, String r, bool l}) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setBool('isLogin', l);
-    pref.setString('route', r);
-    pref.setString('token', t);
   }
 
   @override

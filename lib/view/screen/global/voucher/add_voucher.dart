@@ -12,7 +12,10 @@ class _AddVoucherState extends State<AddVoucher> {
       nominalController,
       startController,
       endController,
-      descController;
+      descController,
+      titleController,
+      valueLimitController;
+  bool isRp = true;
   Widget _createTextField({
     String name,
     String hint,
@@ -24,7 +27,10 @@ class _AddVoucherState extends State<AddVoucher> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name),
+          Text(
+            name,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           Container(
             height: 50,
             margin: EdgeInsets.only(top: 10),
@@ -57,43 +63,99 @@ class _AddVoucherState extends State<AddVoucher> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Nominal"),
-        Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Container(
-                height: 50,
-                margin: EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Color(0xffE5E5E5),
+        Text(
+          "Nominal",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        GestureDetector(
+          onTap: () {
+            isRp = !isRp;
+            setState(() {
+              
+            });
+            print(isRp);
+          },
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Container(
+                  height: 50,
+                  margin: EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: Color(0xffE5E5E5),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xffEFEFEF),
+                        ),
+                        child: Center(
+                          child: Text((isRp)?"Rp":"%"),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          controller: (isRp)?nominalController:valueLimitController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 15),
+                            border: InputBorder.none,
+                            hintText: "",
+                            hintStyle: TextStyle(
+                              color: Color(0xff696969),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+              Container(
+                color: Color(0xffEAEAEA),
+                height: 50,
+                width: 90,
+                margin: EdgeInsets.only(top: 10, left: 5),
                 child: Row(
                   children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Color(0xffEFEFEF),
-                      ),
-                      child: Center(
-                        child: Text("Rp"),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: (isRp)?cBlack:Color(0xffE5E5E5),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Center(
+                          child: Text(
+                            "Rp",
+                            style: TextStyle(color: (isRp)?Colors.white:Color(0xff696969)),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        controller: nominalController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15),
-                          border: InputBorder.none,
-                          hintText: "hint",
-                          hintStyle: TextStyle(
-                            color: Color(0xff696969),
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: (isRp)?Color(0xffE5E5E5):cBlack,
+                            borderRadius: BorderRadius.circular(5)),
+                        height: 50,
+                        child: Center(
+                          child: Text(
+                            "%",
+                            style: TextStyle(
+                              color: (isRp)?Color(0xff696969):Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -101,48 +163,8 @@ class _AddVoucherState extends State<AddVoucher> {
                   ],
                 ),
               ),
-            ),
-            Container(
-              color: Color(0xffEAEAEA),
-              height: 50,
-              width: 90,
-              margin: EdgeInsets.only(top: 10, left: 5),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: cBlack,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                        child: Text(
-                          "Rp",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "%",
-                          style: TextStyle(
-                            color: Color(0xff696969),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -175,6 +197,12 @@ class _AddVoucherState extends State<AddVoucher> {
               child: ListView(
                 children: [
                   _createTextField(
+                    controller: titleController,
+                    name: "Title Voucher",
+                    type: TextInputType.name,
+                    hint: "Title Voucher",
+                  ),
+                  _createTextField(
                     controller: codeController,
                     name: "Nama / Kode Voucher",
                     type: TextInputType.name,
@@ -182,11 +210,14 @@ class _AddVoucherState extends State<AddVoucher> {
                   ),
                   _createNominal(),
                   Container(
-                    margin: EdgeInsets.only(bottom: 15),
+                    margin: EdgeInsets.only(bottom: 15, top: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Masa Berlaku"),
+                        Text(
+                          "Masa Berlaku",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         Row(
                           children: [
                             Expanded(
@@ -244,7 +275,7 @@ class _AddVoucherState extends State<AddVoucher> {
                                       Momentumicon.calender,
                                       color: Color(0xff696969),
                                     ),
-                                    hintText: "Tanggal Mulai",
+                                    hintText: "Tanggal Berakhir",
                                     hintStyle: TextStyle(
                                       color: Color(0xff696969),
                                       fontSize: 14,
@@ -258,27 +289,36 @@ class _AddVoucherState extends State<AddVoucher> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: Color(0xffE5E5E5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Deskripsi Voucher",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    child: TextField(
-                      style: TextStyle(color: Colors.black),
-                      maxLines: 10,
-                      controller: descController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(top: 15, left: 15),
-                        border: InputBorder.none,
-                        hintText: "Masukkan deskripsi voucher",
-                        hintStyle: TextStyle(
-                          color: Color(0xff696969),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Color(0xffE5E5E5),
+                          ),
+                        ),
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          maxLines: 10,
+                          controller: descController,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(top: 15, left: 15),
+                            border: InputBorder.none,
+                            hintText: "Masukkan deskripsi voucher",
+                            hintStyle: TextStyle(
+                              color: Color(0xff696969),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   Container(
                     height: 100,

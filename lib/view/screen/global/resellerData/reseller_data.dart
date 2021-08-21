@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
+import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/Reseller_model/reseller_model.dart';
 import 'package:momentum_admin_panel/model/reseller_model.dart';
 
 import 'add_ reseller_page.dart/add_reseller_page.dart';
@@ -16,159 +18,176 @@ class _ResselerDataScreenState extends State<ResselerDataScreen> {
   final TextEditingController searchController = new TextEditingController();
   List<ResellerModel> model = resellerMomentumModel;
   
+    getSeller() async {
+    await Seller.connectToApi(membership: "seller")
+        .then((value) => sellerActive = value);
+  }
   Widget createResselerData(ResellerModel data) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ResellerDetailPage(
-              data: data,
-            ),
-          ),
+    return FutureBuilder(
+      future: getSeller(),
+      builder: (context, snapshot) {
+        return ListView.builder(
+          itemCount: sellerActive.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResellerDetailPage(
+                      data: sellerActive[index],
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      model[index].imgUrl,
+                                    ),
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                height: 50,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      sellerActive[index].name,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                    Text(
+                                      sellerActive[index].email,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff696969),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: PopupMenuButton(
+                              child: Icon(Icons.more_horiz),
+                              onSelected: (value) {
+                                print("value:$value");
+                                actionPopUpItemSelected(value);
+                              },
+                              itemBuilder: (context) {
+                                return <PopupMenuEntry>[
+                                  PopupMenuItem(
+                                    height: 35,
+                                    value: 'change',
+                                    child: Text('Ubah'),
+                                  ),
+                                  PopupMenuDivider(),
+                                  PopupMenuItem(
+                                    height: 35,
+                                    value: 'delete',
+                                    child: Text('Hapus'),
+                                  )
+                                ];
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      color: Colors.white,
+                      margin: EdgeInsets.only(top: 1),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total Penjualan",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  "Rp. ${(sellerActive[index].income)},-",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xffE8B730),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  Icons.verified_user,
+                                  color:
+                                      (sellerActive[index].status != "seller")
+                                          ? Color(0xff228DF0)
+                                          : Color(0xff7D8487),
+                                  size: 16,
+                                ),
+                                Text(
+                                  (sellerActive[index].status != "seller")
+                                      ? "Diterbitkan"
+                                      : "Menunggu Divalidasi",
+                                  style: TextStyle(
+                                    color:
+                                        (sellerActive[index].status != "seller")
+                                            ? Color(0xff228DF0)
+                                            : Color(0xff7D8487),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
-      child: Container(
-        margin: EdgeInsets.only(top: 5),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(15),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              data.imgUrl,
-                            ),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        height: 50,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.name,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            Text(
-                              data.email,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff696969),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    child: PopupMenuButton(
-                      child: Icon(Icons.more_horiz),
-                      onSelected: (value) {
-                        print("value:$value");
-                        actionPopUpItemSelected(value);
-                      },
-                      itemBuilder: (context) {
-                        return <PopupMenuEntry>[
-                          PopupMenuItem(
-                            height: 35,
-                            value: 'change',
-                            child: Text('Ubah'),
-                          ),
-                          PopupMenuDivider(),
-                          PopupMenuItem(
-                            height: 35,
-                            value: 'delete',
-                            child: Text('Hapus'),
-                          )
-                        ];
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(15),
-              color: Colors.white,
-              margin: EdgeInsets.only(top: 1),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Total Penjualan",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "Rp. ${(data.profit)},-",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffE8B730),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(
-                          Icons.verified_user,
-                          color: (data.isValidate)
-                              ? Color(0xff228DF0)
-                              : Color(0xff7D8487),
-                          size: 16,
-                        ),
-                        Text(
-                          (data.isValidate)
-                              ? "Menunggu Divalidasi"
-                              : "Diterbitkan",
-                          style: TextStyle(
-                            color: (data.isValidate)
-                                ? Color(0xff228DF0)
-                                : Color(0xff7D8487),
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/model/Product_model/detail.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
+import 'package:momentum_admin_panel/model/Product_model/update.dart';
 import 'package:momentum_admin_panel/view/widgets/appBarCustom.dart';
 import 'package:momentum_admin_panel/view/widgets/warning.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,21 +17,18 @@ class WareHouseBody extends StatefulWidget {
 }
 
 class _WareHouseBodyState extends State<WareHouseBody> {
-  int id;
+  String id;
   int add = 1;
   String scanId;
   List<Product> productSearch = [];
-  bool isStockLow = false, isReady, isModal = false;
+  bool isStockLow = false, isModal = false;
   TextEditingController searchController = new TextEditingController();
-  Product modal;
+  TextEditingController addController = new TextEditingController();
+  ProductDetail productScan;
 
-  void checkQr(int id) {
-    for (var i = 0; i < productModelOffline.length; i++) {
-      if (productModelOffline[i].id == id) isReady = true;
-      if (productModelOffline[i].id == id) modal = productModelOffline[i];
-      if (isReady == true) isModal = true;
-      if (isReady == true) i = productModelOffline.length;
-    }
+  void checkQr(String id) {
+    addController.text = add.toString();
+    if (productScan.id != "null") isModal = true;
   }
 
   Widget _createListViewBuilder(List<Product> productModelOffline) {
@@ -119,27 +120,14 @@ class _WareHouseBodyState extends State<WareHouseBody> {
     );
   }
 
-  Widget _createModal(Product modal) {
-    return Stack(
-      children: [
-        WareHouseBody(),
-        GestureDetector(
-          onTap: () {
-            isModal = false;
-            setState(() {});
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.black26,
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          child: Container(
+  Widget _createModal() {
+    return SizedBox(
+      child: DraggableScrollableSheet(
+        maxChildSize: 0.5,
+        minChildSize: 0.3,
+        builder: (BuildContext c, s) {
+          return Container(
             padding: EdgeInsets.all(16),
-            width: MediaQuery.of(context).size.width,
-            height: 250,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -147,7 +135,8 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 topLeft: Radius.circular(30),
               ),
             ),
-            child: Column(
+            child: ListView(
+              controller: s,
               children: [
                 Center(
                   child: Container(
@@ -158,157 +147,157 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Row(
+                Container(
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          modal.imgUrl,
-                          height: 50,
-                          width: 50,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                modal.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "Stok barang saat ini : ${modal.stock}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff696969),
-                                ),
-                              ),
-                            ],
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              productScan.imgURL,
+                              height: 50,
+                              width: 50,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Jumlah Penambah",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    productScan.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Stok barang saat ini : ${productScan.stock}",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff696969),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Row(
                           children: [
-                            GestureDetector(
-                              onTap: (add == 1)
-                                  ? () {}
-                                  : () {
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "Jumlah Penambah",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (add == 1)
+                                        ? () {}
+                                        : () {
+                                            add = int.parse(addController.text);
+                                            add -= 1;
+                                            if (add <= 0) add = 1;
+                                            setState(() {
+                                              addController.text =
+                                                  add.toString();
+                                            });
+                                          },
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: (add == 1)
+                                              ? Color(0xffCACACA)
+                                              : Color(0xff000000),
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: (add == 1)
+                                              // Color colorDisable = Color(0xffCACACA);
+                                              // Color colorEnable = Color(0xff000000);
+                                              ? Color(0xffCACACA)
+                                              : Color(0xff000000),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: addController,
+                                      // keyboardType: ,
+                                      textAlign: TextAlign.center,
+                                      onChanged: (newStock) {
+                                        if (int.parse(newStock) <= 0) {
+                                          add = 1;
+                                          addController.text = "1";
+                                        } else {
+                                          add = int.parse(newStock);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      add = int.parse(addController.text);
+                                      add += 1;
                                       setState(() {
-                                        add -= 1;
+                                        addController.text = add.toString();
                                       });
                                     },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: (add == 1)
-                                        ? Color(0xffCACACA)
-                                        : Color(0xff000000),
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Color(0xff000000),
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Color(0xff000000),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: (add == 1)
-                                        // Color colorDisable = Color(0xffCACACA);
-                                        // Color colorEnable = Color(0xff000000);
-                                        ? Color(0xffCACACA)
-                                        : Color(0xff000000),
-                                    width: 1,
-                                  ),
-                                ),
+                                ],
                               ),
-                            ),
-                            Text(
-                              add.toString(),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  add += 1;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Color(0xff000000),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            )
                           ],
                         ),
-                      )
                     ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    modal.stock = modal.stock + add;
-                    isModal = false;
-                    setState(() {});
-                  },
-                  child: Container(
-                    height: 50,
-                    color: Colors.black,
-                    child: Center(
-                      child: Text(
-                        "Tambahkan Stock",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 
@@ -369,17 +358,21 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                       child: IconButton(
                         onPressed: () async {
                           var cameraStatus = await Permission.camera.status;
-                          print(cameraStatus);
                           if (!cameraStatus.isGranted) {
                             await Permission.camera.request();
                           }
                           if (await Permission.camera.isGranted) {
-                            isReady = false;
                             add = 1;
                             scanId = await scanner.scan();
-                            id = int.parse(scanId);
-                            checkQr(id);
-                            setState(() {});
+                            if (scanId != null) {
+                              Map scan = jsonDecode(scanId);
+                              print(scan["id"]);
+                              await ProductDetail.connectToApi(
+                                id: scan["id"].toString(),
+                              ).then((value) => productScan = value);
+                              checkQr(scan["id"].toString());
+                              setState(() {});
+                            }
                           }
                         },
                         icon: Icon(Momentumicon.qr),
@@ -400,25 +393,15 @@ class _WareHouseBodyState extends State<WareHouseBody> {
                 child: FutureBuilder(
                     future: getData(),
                     builder: (context, snapshot) {
-                      // return Container(
-                      //   child: Center(
-                      //     child: Text("Loading"),
-                      //   ),
-                      // );
-                      if (productModelOffline.isNotEmpty ||
-                          productModelOffline != null) {
-                        return _createListViewBuilder(productModelOffline);
-                        //  return Container(
-                        //   child: Center(
-                        //     child: Text("Loading"),
-                        //   ),
-                        // );
-                      } else {
+                      if (productModelOffline == null ||
+                          productModelOffline.isEmpty) {
                         return Container(
                           child: Center(
                             child: Text("Loading"),
                           ),
                         );
+                      } else {
+                        return _createListViewBuilder(productModelOffline);
                       }
                     }),
                 //  (searchController.text != "")
@@ -427,7 +410,51 @@ class _WareHouseBodyState extends State<WareHouseBody> {
               ),
             ],
           ),
-          if (isModal) _createModal(modal),
+          if (isModal)
+            GestureDetector(
+              onTap: () {
+                isModal = false;
+                setState(() {});
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black26,
+              ),
+            ),
+          if (isModal) _createModal(),
+          if (isModal)
+            Positioned(
+              bottom: 20,
+              right: 16,
+              left: 16,
+              child: GestureDetector(
+                onTap: () {
+                  add = int.parse(addController.text);
+                  ProductUpdate.connectToApi(
+                    id: productScan.id,
+                    quantity: add.toString(),
+                  );
+                  isModal = false;
+                  setState(() {});
+                },
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black,
+                  child: Center(
+                    child: Text(
+                      "Tambahkan Stock",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

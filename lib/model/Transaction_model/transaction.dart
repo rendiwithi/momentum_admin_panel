@@ -47,21 +47,21 @@ class Transaction {
     String key = "2f7fe98eaf8f800c267582fd53b6584f";
     String transactionUrl =
         "http://www.momentumlifestyle.me:3015/transaction/list";
-    var apiResult = await http.post(Uri.parse(transactionUrl), body: {
+    var apiTransaction = await http.post(Uri.parse(transactionUrl), body: {
       "key": key,
       "token": tokenUser,
       "status": "pending",
     });
-    var jsonObject = json.decode(apiResult.body);
+    var jsonObject = json.decode(apiTransaction.body);
 
-    List<dynamic> listTransaction =
+    List<dynamic> listTransaction = await
         (jsonObject as Map<String, dynamic>)['data'];
 
     List<Transaction> transaction = [];
 
     for (var i = 0; i < listTransaction.length; i++) {
       List<Order> orderUser = [];
-      List<dynamic> listDetails =
+      List<dynamic> listDetails = await
           (jsonObject as Map<String, dynamic>)['data'][i]['details'];
 
       for (var y = 0; y < listDetails.length; y++) {

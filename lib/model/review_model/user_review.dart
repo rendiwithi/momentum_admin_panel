@@ -4,9 +4,11 @@ class UserReview {
   int rate;
   String username;
   String comment;
+  String time;
   UserReview({
     this.id,
     this.rate,
+    this.time,
     this.productId,
     this.username,
     this.comment,
@@ -19,6 +21,7 @@ class UserReview {
       rate: object["product_rating"],
       comment: object["comment"],
       username: object["user"]["username"],
+      time: object["created_at"],
     );
   }
 }

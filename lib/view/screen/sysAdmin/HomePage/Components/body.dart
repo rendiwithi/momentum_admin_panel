@@ -13,11 +13,11 @@ class HomePageSysAdminBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 230,
+                height: 240,
                 child: Stack(
                   children: [
                     Container(
-                      height: 100,
+                      height: 110,
                       color: cBlack,
                     ),
                     Positioned(
@@ -26,7 +26,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       left: 10,
                       child: Container(
                         padding: EdgeInsets.all(15),
-                        height: 150,
+                        height: 160,
                         width: 330,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -37,6 +37,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              margin: EdgeInsets.only(bottom: 5),
                               child: Text(
                                 "Kelola Gudang",
                                 style: TextStyle(
@@ -186,7 +187,7 @@ class HomePageSysAdminBody extends StatelessWidget {
                       icon: Momentumicon.icon_kelola_pegawai,
                       title: "Kelola Pegawai",
                       data: "",
-                      route: '/trial',
+                      route: '/sysadmin/manageStaff',
                     ),
                     CreateMenu(
                       icon: Momentumicon.icon_comission,
