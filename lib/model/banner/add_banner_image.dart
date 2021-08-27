@@ -1,16 +1,15 @@
 // import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-// import 'package:momentum_admin_panel/model/Api_model/login_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
 
-class AddImage {
-  static Future<void> connectToApi({String id, File imgProduct}) async {
+class AddBannerImage {
+  static Future<void> connectToApi({String id, File imgBanner}) async {
     var request = http.MultipartRequest(
       "POST",
       Uri.parse(
-        "http://www.momentumlifestyle.me:3015/product/media/upload",
+        "http://www.momentumlifestyle.me:3015/slide/update",
       ),
     );
     Map<String, String> headers = {
@@ -22,16 +21,16 @@ class AddImage {
 
     request.fields['token'] = tokenUser;
     request.fields["key"] = "2f7fe98eaf8f800c267582fd53b6584f";
-    request.fields["product_id"] = id;
+    request.fields["id"] = id;
 
-    if (imgProduct != null) {
-      print(imgProduct.path.split(".").last);
+    if (imgBanner != null) {
+      print(imgBanner.path.split(".").last);
       request.files.add(
         http.MultipartFile.fromBytes(
-          "file",
-          imgProduct.readAsBytesSync(),
-          filename: "test.${imgProduct.path.split(".").last}",
-          contentType: MediaType("image", "${imgProduct.path.split(".").last}"),
+          "slide_file",
+          imgBanner.readAsBytesSync(),
+          filename: "test.${imgBanner.path.split(".").last}",
+          contentType: MediaType("image", "${imgBanner.path.split(".").last}"),
         ),
       );
     }

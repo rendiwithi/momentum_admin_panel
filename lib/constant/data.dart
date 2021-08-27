@@ -1,6 +1,7 @@
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:momentum_admin_panel/model/Reseller_model/reseller_model.dart';
 import 'package:momentum_admin_panel/model/Transaction_model/transaction.dart';
+import 'package:momentum_admin_panel/model/banner/banner_model.dart';
 import 'package:momentum_admin_panel/model/review_model/review.dart';
 import 'package:momentum_admin_panel/model/voucher_model/voucher.dart';
 
@@ -13,6 +14,7 @@ List<Product> productModelPending;
 List<Product> productModelActive;
 List<Seller> sellerActive;
 List<Transaction> listData = [];
+List<BannerModel> listBanner=[];
 Review reviewProduct;
 String tokenUser;
 List<Voucher> voucherDataPending;

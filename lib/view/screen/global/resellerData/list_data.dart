@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Reseller_model/reseller_model.dart';
-import 'package:momentum_admin_panel/model/reseller_model.dart';
 
 import 'resellerDetail/reseller_detail_page.dart';
 
@@ -14,7 +13,6 @@ class ListData extends StatefulWidget {
 }
 
 class _ListDataState extends State<ListData> {
-  List<ResellerModel> model = resellerMomentumModel;
 
   getSeller() async {
     await Seller.connectToApi(membership: "seller")
@@ -78,7 +76,7 @@ class _ListDataState extends State<ListData> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        model[index].imgUrl,
+                                        sellerActive[index].imgUrl,
                                       ),
                                       fit: BoxFit.fitWidth,
                                     ),

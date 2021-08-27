@@ -3,6 +3,8 @@ import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/model/Product_model/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'needPermission.dart';
+
 class CreateWearhouse extends StatefulWidget {
   final IconData icon;
   final String title;
@@ -64,11 +66,10 @@ class CreateDelivery extends StatefulWidget {
 }
 
 class _CreateDeliveryState extends State<CreateDelivery> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async{
+      onTap: () async {
         Navigator.pushNamed(context, '/admin/order');
         // print(listData.length);
         // print(listData[0].order[0].name);
@@ -105,8 +106,15 @@ class CreateMenu extends StatefulWidget {
   final String data;
   final String route;
   final bool isNew;
+  final bool access;
   CreateMenu(
-      {Key key, this.icon, this.title, this.data, this.route, this.isNew})
+      {Key key,
+      this.icon,
+      this.title,
+      this.data,
+      this.route,
+      this.isNew,
+      this.access})
       : super(key: key);
   @override
   _CreateMenuState createState() => _CreateMenuState();
@@ -114,12 +122,17 @@ class CreateMenu extends StatefulWidget {
 
 class _CreateMenuState extends State<CreateMenu> {
   List<Product> model;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, widget.route);
-        // Navigator.push
+      onTap: () async {
+        bool canAccess =
+            (widget.access == null || widget.access) ? true : false;
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        (pref.getString('route') == '/sysadmin/home' || canAccess)
+            ? Navigator.pushNamed(context, widget.route)
+            : needPermission(context);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8, bottom: 8),

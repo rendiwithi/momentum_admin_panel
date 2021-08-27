@@ -12,7 +12,7 @@ class _CheckPageState extends State<CheckPage> {
   void check() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getBool('isLogin') == true) {
-        Navigator.pushReplacementNamed(context, pref.getString('route'));
+        Navigator.pushReplacementNamed(context, '/sysadmin/home');
         tokenUser = pref.getString('token');
     } else {
       Navigator.pushReplacementNamed(context, '/login');

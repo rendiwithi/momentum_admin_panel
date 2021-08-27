@@ -1,5 +1,13 @@
+import 'dart:io';
+
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
+import 'package:momentum_admin_panel/model/banner/add_banner_image.dart';
+import 'package:momentum_admin_panel/model/banner/new_banner.dart';
 
 class AddBanner extends StatefulWidget {
   @override
@@ -7,8 +15,13 @@ class AddBanner extends StatefulWidget {
 }
 
 class _AddBannerState extends State<AddBanner> {
-  TextEditingController nameController, linkController;
-  int gender = 1;
+  TextEditingController nameController = new TextEditingController(),
+      linkController = new TextEditingController(),
+      descController = new TextEditingController();
+  int type = 1;
+  File image;
+  NewBanner newBanner;
+  final picker = ImagePicker();
 
   Widget _createTextField({
     String name,
@@ -21,7 +34,12 @@ class _AddBannerState extends State<AddBanner> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name),
+          Text(
+            name,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           Container(
             height: 50,
             margin: EdgeInsets.only(top: 10),
@@ -58,7 +76,7 @@ class _AddBannerState extends State<AddBanner> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          gender = value;
+          type = value;
         });
       },
       child: Container(
@@ -75,7 +93,7 @@ class _AddBannerState extends State<AddBanner> {
                 groupValue: group,
                 onChanged: (value) {
                   setState(() {
-                    gender = value;
+                    type = value;
                   });
                 },
               ),
@@ -91,6 +109,67 @@ class _AddBannerState extends State<AddBanner> {
         ),
       ),
     );
+  }
+
+  Widget _takeFoto(String title) {
+    return DottedBorder(
+      radius: Radius.circular(10),
+      color: Color(0xff888888),
+      strokeWidth: 1,
+      dashPattern: [10, 10, 10, 10],
+      child: Container(
+        height: 160,
+        width: 160,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Icon(
+                Momentumicon.camera,
+                color: Color(0xff888888),
+              ),
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                color: Color(0xff888888),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void sendData()async  {
+    bool n = nameController.text?.trim()?.isEmpty ?? true;
+    bool d = descController.text?.trim()?.isEmpty ?? true;
+    bool l = linkController.text?.trim()?.isEmpty ?? true;
+    String msg;
+    print("object");
+    if (n || d || l || image == null) {
+      msg = "EH KETEKEN KAMPRET";
+    } else {
+      await NewBanner.connectToApi(
+        title: nameController.text,
+        desc: descController.text,
+        link: linkController.text,
+      ).then((value) => newBanner = value);
+      AddBannerImage.connectToApi(
+        id: newBanner.id,
+        imgBanner: image,
+      );
+      // await AddNewBanner.connectToApi(
+      //     title: nameController.text,
+      //     desc: descController.text,
+      //     link: linkController.text,
+      //     imgProduct: image);
+      msg = newBanner.id.toString();
+      // Navigator.pop(context);
+      Navigator.pop(context);
+    }
+    print(msg);
   }
 
   @override
@@ -115,7 +194,7 @@ class _AddBannerState extends State<AddBanner> {
             ListView(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 5),
+                  margin: EdgeInsets.only(top: 5, bottom: 70),
                   padding: EdgeInsets.all(15),
                   color: Colors.white,
                   child: Column(
@@ -128,18 +207,108 @@ class _AddBannerState extends State<AddBanner> {
                         type: TextInputType.text,
                       ),
                       _createTextField(
+                        controller: descController,
+                        hint: "Masukkan Description Banner",
+                        name: "Description Banner",
+                        type: TextInputType.text,
+                      ),
+                      _createTextField(
                         controller: linkController,
                         hint: "Masukkan link banner",
                         name: "Link Banner",
                         type: TextInputType.text,
                       ),
-                      Text("data"),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gambar",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (image == null) {
+                                final pickedFile = await picker.pickImage(
+                                    source: ImageSource.gallery);
+                                Fluttertoast.showToast(
+                                    msg: pickedFile.toString());
+                                setState(
+                                  () {
+                                    if (pickedFile != null) {
+                                      image = File(pickedFile.path);
+                                    } else {
+                                      print('No image selected.');
+                                    }
+                                  },
+                                );
+                              } else {
+                                image = null;
+                                setState(() {});
+                              }
+                              print("keteken");
+                            },
+                            child: Center(
+                              child: Container(
+                                height: 160,
+                                width: 160,
+                                margin: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: (image == null)
+                                    ? Container(
+                                        padding: EdgeInsets.all(15),
+                                        child: _takeFoto("Foto"),
+                                      )
+                                    : Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.file(
+                                              image,
+                                              height: 160,
+                                              width: 160,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 0,
+                                            child: Container(
+                                              height: 40,
+                                              width: 160,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xff4D000000),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Momentumicon.trash,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Penempatan Banner",
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
                       Row(
                         children: [
                           _createRadioButton(
-                              group: gender, title: "Popup", value: 1),
+                              group: type, title: "Popup", value: 1),
                           _createRadioButton(
-                              group: gender, title: "Home Banner", value: 2),
+                              group: type, title: "Home Banner", value: 2),
                         ],
                       )
                     ],
@@ -158,12 +327,15 @@ class _AddBannerState extends State<AddBanner> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(cBlack),
                       elevation: MaterialStateProperty.all<double>(0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    sendData();
+                    print("newBanner.id");
+                  },
                   child: Text(
                     "Tambahkan Banner",
                     style: TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
                   ),

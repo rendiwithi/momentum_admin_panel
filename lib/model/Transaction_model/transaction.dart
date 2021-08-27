@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:momentum_admin_panel/constant/data.dart';
-import 'package:momentum_admin_panel/model/Api_model/login_model.dart';
+import 'package:momentum_admin_panel/logic/changeDate.dart';
 import 'package:momentum_admin_panel/model/Transaction_model/order.dart';
 
 class Transaction {
@@ -34,7 +34,7 @@ class Transaction {
     return Transaction(
       id: object["id"],
       code: object["code"],
-      date: object["date"],
+      date: changeDate(object["date"]),
       status: object["status"],
       phoneCustomer: object["phone"],
       nameCustomer: object["address"]["name"],

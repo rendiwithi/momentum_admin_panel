@@ -12,9 +12,10 @@ class DeliveryOrderBody extends StatefulWidget {
 }
 
 class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
-  getData()async{
-        await Transaction.connectToApi().then((value) => listData = value);
+  getData() async {
+    await Transaction.connectToApi().then((value) => listData = value);
   }
+
   Widget deliveryCard({Transaction transaction, int id}) {
     return Container(
       decoration: BoxDecoration(
@@ -34,8 +35,7 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
               print("produk");
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => AddedSalesPage(id: id)),
+                MaterialPageRoute(builder: (context) => AddedSalesPage(id: id)),
               );
             },
             child: Column(
@@ -187,12 +187,22 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
                   decoration: BoxDecoration(color: Color(0xffEFEFEF)),
                 ),
                 GestureDetector(
-                  // onTap: () {
-                  // var s = (order.isPrinted)
-                  // ? "Cetak Shipping Label"
-                  // : "Tambahkan Resi";
-                  // print(s);
-                  // },
+                  
+                  onTap: () {
+                    print("keteken");
+                    // Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => ShippingLabel()),
+                    //       );
+                    // (true)
+                    //     ? Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => ShippingLabel()),
+                    //       )
+                    //     : Fluttertoast.showToast(msg: "Tambahkan Resi");
+                  },
                   child: Row(
                     children: [
                       Container(
@@ -222,8 +232,6 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -261,24 +269,25 @@ class _DeliveryOrderBodyState extends State<DeliveryOrderBody> {
         ),
         Expanded(
           child: FutureBuilder(
-            future: getData(),
-            builder: (context, snapshot) {
-            if (listData == null || listData.isEmpty) {
-              return Container(
-                child: Center(
-                  child: Text("Loading"),
-                ),
-              );
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: listData.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return deliveryCard(transaction: listData[index], id: index);
-                },
-              );
-            }
-          }),
+              future: getData(),
+              builder: (context, snapshot) {
+                if (listData == null || listData.isEmpty) {
+                  return Container(
+                    child: Center(
+                      child: Text("Loading"),
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: listData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return deliveryCard(
+                          transaction: listData[index], id: index);
+                    },
+                  );
+                }
+              }),
           // child: ListView.builder(
           //   shrinkWrap: true,
           //   itemCount: model.length,

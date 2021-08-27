@@ -463,7 +463,7 @@ class _AddProductBodyState extends State<AddProductBody> {
 
   getImage(int index) async {
     if (index == 0) {
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
       Fluttertoast.showToast(msg: pickedFile.toString());
       setState(
         () {
@@ -476,7 +476,7 @@ class _AddProductBodyState extends State<AddProductBody> {
       );
     } else if (index == 1) {
       if (img1 != null) {
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
         setState(
           () {
             if (pickedFile != null) {
@@ -495,7 +495,7 @@ class _AddProductBodyState extends State<AddProductBody> {
       }
     } else if (index == 2) {
       if (img1 != null && img2 != null) {
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
         setState(
           () {
             if (pickedFile != null) {
@@ -514,7 +514,7 @@ class _AddProductBodyState extends State<AddProductBody> {
       }
     } else if (index == 3) {
       if (img1 != null && img2 != null && img3 != null) {
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
         setState(
           () {
             if (pickedFile != null) {

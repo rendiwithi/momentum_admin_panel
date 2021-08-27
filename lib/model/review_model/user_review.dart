@@ -1,3 +1,5 @@
+import 'package:momentum_admin_panel/logic/changeDate.dart';
+
 class UserReview {
   int id;
   int productId;
@@ -21,7 +23,7 @@ class UserReview {
       rate: object["product_rating"],
       comment: object["comment"],
       username: object["user"]["username"],
-      time: object["created_at"],
+      time: changeDate(object["created_at"]),
     );
   }
 }

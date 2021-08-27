@@ -6,6 +6,7 @@ import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
 import 'package:momentum_admin_panel/model/Transaction_model/transaction.dart';
+import 'package:momentum_admin_panel/view/screen/global/deliveryOrder/shipping_label.dart';
 
 class AddedSalesPage extends StatefulWidget {
   final int id;
@@ -358,6 +359,13 @@ class _AddedSalesPageState extends State<AddedSalesPage> {
                     Padding(
                       padding: EdgeInsets.all(10),
                       child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShippingLabel()),
+                          );
+                        },
                         child: Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width - 20,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
 import 'package:momentum_admin_panel/constant/data.dart';
-import 'package:momentum_admin_panel/model/productReview.dart';
 import 'package:momentum_admin_panel/model/review_model/review.dart';
 import 'package:momentum_admin_panel/model/review_model/user_review.dart';
+import 'package:momentum_admin_panel/view/screen/global/productReview/replyReview/reply_review.dart';
 
 class ProductReviews extends StatefulWidget {
   @override
@@ -125,7 +125,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Text(
-                      "review.time",
+                      review.time,
                       style: TextStyle(
                         fontSize: 10,
                         color: Color(0xff666666),
@@ -153,14 +153,14 @@ class _ProductReviewsState extends State<ProductReviews> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ReplyReviewScreen(
-                        //       model: review,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReplyReviewScreen(
+                              model: review,
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 10),
@@ -204,7 +204,7 @@ class _ProductReviewsState extends State<ProductReviews> {
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Text(
-                          "review.timeReply",
+                          review.time,
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,

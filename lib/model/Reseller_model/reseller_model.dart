@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/logic/changeDate.dart';
 
 class Seller {
   int id;
@@ -47,15 +48,15 @@ class Seller {
   factory Seller.fromJson(Map<String, dynamic> object) {
     return Seller(
         id: object["id"],
-        bank: "-",
-        bankNo: "-",
-        bankUser: "-",
+        bank: object["bank_accounts"][0]["bank"]["name"],
+        bankNo: object["bank_accounts"][0]["no"],
+        bankUser: object["bank_accounts"][0]["name"],
         code: "-",
-        created: "-",
-        gender: "-",
+        created: changeDate(object["created_at"]),
+        gender: (object["gender"] == null)?"-":object["gender"],
         email: (object["email"] == null) ? "-" : object["email"],
         identitiyNumber: object["id_card_no"],
-        imgUrl: (object["prof_pict"] == null) ? "-" : object["prof_pict"],
+        imgUrl: (object["prof_pict"] == null) ? "https://firebasestorage.googleapis.com/v0/b/momentum-4f5a8.appspot.com/o/public%2Fuploads%2Fuser%2F3%2Fuser_m7utsa0zWRohKA%3D%3D.png?alt=media&token=55567d03-766d-4e09-ba5c-b583de4af80c" : object["prof_pict"]["link"],
         income: object["shop"]["total_income"].toString(),
         instagram: (object["shop"]["instagram"] == null)
             ? "-"

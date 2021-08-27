@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:momentum_admin_panel/constant/data.dart';
+import 'package:momentum_admin_panel/logic/changeDate.dart';
 
 class Voucher {
   int id;
@@ -30,7 +31,7 @@ class Voucher {
       title: object["title"],
       views: object["views"].toString(),
       status: object["status"],
-      expired: object["expired"],
+      expired: changeDate(object["expired"]),
       percentage: object["percentage"].toString(),
       description: object["description"],
     );

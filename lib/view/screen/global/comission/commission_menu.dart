@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
-import 'package:momentum_admin_panel/view/screen/global/banner/bannerList.dart';
+import 'package:flutter/material.dart';
+import 'commision_list.dart';
+import 'history_list.dart';
 
-import 'addBanner.dart';
-
-class ManageBannerSysadmin extends StatefulWidget {
-  const ManageBannerSysadmin({key}) : super(key: key);
+class ComissionTransfer extends StatefulWidget {
+  const ComissionTransfer({key}) : super(key: key);
 
   @override
-  _ManageBannerSysadminState createState() => _ManageBannerSysadminState();
+  _ComissionTransferState createState() => _ComissionTransferState();
 }
 
-class _ManageBannerSysadminState extends State<ManageBannerSysadmin> {
-  TextEditingController searchController = new TextEditingController();
+class _ComissionTransferState extends State<ComissionTransfer> {
   int _selectedIndex = 0;
   Color colorL = Color(0xffE8B730), colorR;
 
@@ -29,18 +27,17 @@ class _ManageBannerSysadminState extends State<ManageBannerSysadmin> {
   }
 
   static List<Widget> _widgetOptions = <Widget>[
-    BannerList(),
-    Text("ini menunggu persetujuan"),
+    ComissionList(),
+    HistoryList()
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         backgroundColor: cBlack,
+        centerTitle: true,
         title: Text(
-          "Kelola Banner",
+          "Comission Transfer",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -48,22 +45,7 @@ class _ManageBannerSysadminState extends State<ManageBannerSysadmin> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddBanner(),
-            ),
-          );
-        },
-        elevation: 0,
-        backgroundColor: Color(0xffE8B730),
-        child: Icon(
-          Icons.add,
-          color: Color(0xff715815),
-        ),
-      ),
+      backgroundColor: cGrey,
       body: Column(
         children: [
           Container(
@@ -78,11 +60,11 @@ class _ManageBannerSysadminState extends State<ManageBannerSysadmin> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: 'Banner',
+                  label: 'Comission List',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.business),
-                  label: 'Menunggu Persetujuan',
+                  label: 'History Transfer',
                 ),
               ],
             ),

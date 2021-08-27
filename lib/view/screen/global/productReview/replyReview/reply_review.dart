@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momentum_admin_panel/constant/TextStyleCustom.dart';
 import 'package:momentum_admin_panel/constant/colors.dart';
 import 'package:momentum_admin_panel/assets/momentumicon_icons.dart';
-import 'package:momentum_admin_panel/model/productReview.dart';
-import 'package:file_picker/file_picker.dart';
-import '../product_review_screen.dart';
+// import 'package:file_picker/file_picker.dart';
+import 'package:momentum_admin_panel/model/review_model/user_review.dart';
 
 class ReplyReviewScreen extends StatefulWidget {
-  final ProductReviewModel model;
+  final UserReview model;
   ReplyReviewScreen({Key key, @required this.model}) : super(key: key);
 
   @override
@@ -17,7 +15,7 @@ class ReplyReviewScreen extends StatefulWidget {
 
 class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
   TextEditingController replyController = new TextEditingController();
-  FilePickerResult result;
+  // FilePickerResult result;
   String name;
   var review;
   Widget _createStar(int rating) {
@@ -52,23 +50,23 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
     );
   }
 
-  void chooseImage() async {
-    result = await FilePicker.platform.pickFiles(
-      type: FileType.media,
-    );
-    if (result != null) {
-      PlatformFile file = result.files.first;
+  // void chooseImage() async {
+  //   result = await FilePicker.platform.pickFiles(
+  //     type: FileType.media,
+  //   );
+  //   if (result != null) {
+  //     PlatformFile file = result.files.first;
 
-      print(file.name);
-      name = file.name;
-      print(file.bytes);
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-    } else {
-      print("Ga ada pilihan");
-    }
-  }
+  //     print(file.name);
+  //     name = file.name;
+  //     print(file.bytes);
+  //     print(file.size);
+  //     print(file.extension);
+  //     print(file.path);
+  //   } else {
+  //     print("Ga ada pilihan");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +97,7 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.model.user,
+                            widget.model.username ,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -118,17 +116,17 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                           ),
                         ],
                       ),
-                      _createStar(widget.model.rating),
+                      _createStar(widget.model.rate),
                     ],
                   ),
                 ),
                 Container(
                   color: Colors.white,
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.only(left: 15,right: 15, top: 10,bottom: 10),
                   child: Text(
-                    widget.model.review,
+                    widget.model.comment ,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 18,
                       color: Color(0xff666666),
                     ),
                   ),
@@ -171,23 +169,22 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          result = await FilePicker.platform.pickFiles(
-                            type: FileType.media,
-                          );
-                          setState(() {
-                            if (result != null) {
-                              PlatformFile file = result.files.first;
-
-                              print(file.name);
-                              name = file.name;
-                              print(file.bytes);
-                              print(file.size);
-                              print(file.extension);
-                              print(file.path);
-                            } else {
-                              print("Ga ada pilihan");
-                            }
-                          });
+                          // result = await FilePicker.platform.pickFiles(
+                          //   type: FileType.media,
+                          // );
+                          // setState(() {
+                          //   if (result != null) {
+                          //     PlatformFile file = result.files.first;
+                          //     print(file.name);
+                          //     name = file.name;
+                          //     print(file.bytes);
+                          //     print(file.size);
+                          //     print(file.extension);
+                          //     print(file.path);
+                          //   } else {
+                          //     print("Ga ada pilihan");
+                          //   }
+                          // });
                         },
                         child: Container(
                           height: 50,
@@ -197,9 +194,10 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                             children: [
                               Icon(Icons.attach_file),
                               Text(
-                                (result != null)
-                                    ? name
-                                    : "Tambahkan File / Foto",
+                                "asd",
+                                // (result != null)
+                                //     ? name
+                                //     : "Tambahkan File / Foto",
                                 style: titleBold,
                               ),
                             ],
@@ -222,24 +220,24 @@ class _ReplyReviewScreenState extends State<ReplyReviewScreen> {
                     EdgeInsets.only(bottom: 12, top: 12, left: 15, right: 15),
                 child: GestureDetector(
                   onTap: () {
-                    review = replyController.text;
-                    print(review);
-                    widget.model.reviewReply = replyController.text;
-                    widget.model.timeReply = "15 Juni 2021";
-                    widget.model.userReply = "Momentum Admin";
-                    (review == "" || review == " " || review == "  ")
-                        ? Fluttertoast.showToast(
-                            msg: "Masukkan Review Anda",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            // timeInSecForIos: 1,
-                          )
-                        : Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductReviews(),
-                            ),
-                          );
+                    // review = replyController.text;
+                    // print(review);
+                    // // widget.model.reviewReply = replyController.text;
+                    // // widget.model.timeReply = "15 Juni 2021";
+                    // // widget.model.userReply = "Momentum Admin";
+                    // (review == "" || review == " " || review == "  ")
+                    //     ? Fluttertoast.showToast(
+                    //         msg: "Masukkan Review Anda",
+                    //         toastLength: Toast.LENGTH_SHORT,
+                    //         gravity: ToastGravity.BOTTOM,
+                    //         // timeInSecForIos: 1,
+                    //       )
+                    //     : Navigator.pushReplacement(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => ProductReviews(),
+                    //         ),
+                    //       );
                   },
                   child: Container(
                     height: 70,
